@@ -1,0 +1,18 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+
+# local env / editor noise
+.env
+.env.local
+.DS_Store
+*.log
+
+# vercel
+.vercel/
+
+# claude code tooling + internal build brief (keep the public repo clean)
+.claude/
+fable5-build-prompt.md

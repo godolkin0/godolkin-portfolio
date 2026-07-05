@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-ink: #0a0f16;
+  --color-panel: #0f1621;
+  --color-panel-2: #141d2b;
+  --color-line: #1e2a3a;
+  --color-fg: #dbe4ee;
+  --color-dim: #8b98a9;
+  --color-faint: #5c6b7d;
+  --color-accent: #34d399;
+  --color-accent-2: #22d3ee;
+  --color-warn: #fbbf24;
+  --color-danger: #f87171;
+
+  --animate-fade-up: fade-up 0.45s ease-out both;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Neutralize decorative motion for users who ask for it. The pipeline's tiny
+   processing spinner is exempt: it's small, contained, and conveys state. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-spin {
+    animation-duration: 1s !important;
+    animation-iteration-count: infinite !important;
+  }
+}
+
+/* Remove number-input spinners so the editable report table stays clean */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
