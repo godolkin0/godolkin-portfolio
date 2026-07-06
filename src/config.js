@@ -15,9 +15,7 @@ export const SITE = {
   // hidden; the repo link (once public) carries the proof instead.
   videoUrl: null,
 
-  // TODO(blenard): LinkedIn profile URL. Until set, the LinkedIn button
-  // in Contact stays hidden.
-  linkedin: null,
+  linkedin: "https://www.linkedin.com/in/blenard-kola-godolkin/",
 
   // TODO(blenard): Telegram username WITHOUT the @ (e.g. "godolkin").
   telegram: null,
