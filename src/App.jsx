@@ -9,16 +9,22 @@ import { SITE } from "./config";
 
 const EMAIL = "godolkin0@gmail.com";
 
+// Gmail's own compose URL, so this opens gmail.com in the browser instead of
+// whatever the visitor's OS has set as the default mail app (e.g. Outlook).
+function gmailComposeHref(subject) {
+  return `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=${encodeURIComponent(subject)}`;
+}
+
 export default function App() {
   const { t } = useI18n();
-  const mailto = `mailto:${EMAIL}?subject=${encodeURIComponent(t.mailSubject)}`;
+  const emailHref = gmailComposeHref(t.mailSubject);
 
   return (
     <div className="relative">
       <GridBackdrop />
       <div className="relative mx-auto max-w-5xl px-4 sm:px-6">
-        <Header mailto={mailto} />
-        <Hero mailto={mailto} />
+        <Header emailHref={emailHref} />
+        <Hero emailHref={emailHref} />
         <main id="work" className="space-y-20 pb-24 pt-4">
           <CaseStudy index={1} copy={t.cases.c1} actions={<ProofLinks />}>
             <PolymarketDemo />
@@ -31,7 +37,7 @@ export default function App() {
           </CaseStudy>
         </main>
         <HowIWork />
-        <Contact mailto={mailto} />
+        <Contact emailHref={emailHref} />
         <Footer />
       </div>
     </div>
@@ -129,7 +135,7 @@ function CopyEmail({ className = "" }) {
   );
 }
 
-function Header({ mailto }) {
+function Header({ emailHref }) {
   const { t, lang, setLang } = useI18n();
   return (
     <header className="sticky top-0 z-40 -mx-4 flex items-center justify-between border-b border-line/60 bg-ink/85 px-4 py-3.5 backdrop-blur-md sm:-mx-6 sm:px-6">
@@ -153,7 +159,9 @@ function Header({ mailto }) {
           ))}
         </div>
         <a
-          href={mailto}
+          href={emailHref}
+          target="_blank"
+          rel="noopener noreferrer"
           className="rounded-lg border border-line px-3.5 py-1.5 font-mono text-xs text-dim transition duration-200 hover:border-accent/50 hover:text-fg"
         >
           {t.nav.contact}
@@ -163,7 +171,7 @@ function Header({ mailto }) {
   );
 }
 
-function Hero({ mailto }) {
+function Hero({ emailHref }) {
   const { t } = useI18n();
   return (
     <section className="relative py-16 sm:py-24">
@@ -180,7 +188,9 @@ function Hero({ mailto }) {
         <p className="mt-5 max-w-2xl text-lg text-dim">{t.hero.sub}</p>
         <div className="mt-8 flex flex-wrap gap-3">
           <a
-            href={mailto}
+            href={emailHref}
+            target="_blank"
+            rel="noopener noreferrer"
             className="rounded-lg bg-accent px-5 py-2.5 font-mono text-sm font-semibold text-ink shadow-lg shadow-accent/20 transition duration-200 hover:-translate-y-0.5 hover:bg-accent/85 hover:shadow-accent/30"
           >
             {EMAIL} →
@@ -249,7 +259,7 @@ function HowIWork() {
   );
 }
 
-function Contact({ mailto }) {
+function Contact({ emailHref }) {
   const { t } = useI18n();
   return (
     <section id="contact" className="border-t border-line py-20 text-center">
@@ -257,7 +267,9 @@ function Contact({ mailto }) {
         <h2 className="text-3xl font-extrabold text-fg sm:text-4xl">{t.contact.title}</h2>
         <p className="mx-auto mt-3 max-w-xl text-dim">{t.contact.sub}</p>
         <a
-          href={mailto}
+          href={emailHref}
+          target="_blank"
+          rel="noopener noreferrer"
           className="mt-8 inline-block rounded-xl bg-accent px-8 py-3.5 font-mono text-base font-bold text-ink shadow-lg shadow-accent/20 transition duration-200 hover:-translate-y-0.5 hover:bg-accent/85 hover:shadow-accent/40"
         >
           {t.contact.button}
@@ -265,8 +277,18 @@ function Contact({ mailto }) {
         <div className="mt-4">
           <CopyEmail />
         </div>
-        {(SITE.telegram || SITE.bookingUrl) && (
+        {(SITE.linkedin || SITE.telegram || SITE.bookingUrl) && (
           <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+            {SITE.linkedin && (
+              <a
+                href={SITE.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border border-line px-4 py-2 font-mono text-xs text-dim transition duration-200 hover:border-accent-2/50 hover:text-fg"
+              >
+                {t.contact.linkedin} →
+              </a>
+            )}
             {SITE.telegram && (
               <a
                 href={`https://t.me/${SITE.telegram}`}

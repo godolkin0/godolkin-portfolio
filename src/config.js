@@ -3,17 +3,21 @@
 // without touching components.
 
 export const SITE = {
-  // TODO(blenard): set to the real domain once you have one (e.g. "https://godolkin.dev").
-  // Also update the og:url / og:image / canonical URLs in index.html to match.
-  url: null,
+  // Live domain. If this ever changes, also update the canonical / og:url /
+  // og:image / twitter:image tags in index.html to match.
+  url: "https://godolkin.dev",
 
   // TODO(blenard): public GitHub repo URL of the real Polymarket bot.
   // Until it's public, the "See the real code" link stays hidden.
   repoUrl: null,
 
-  // TODO(blenard): Loom/YouTube link showing the bot firing a real Telegram
-  // alert on schedule. Until set, the "Watch it run" link stays hidden.
+  // Deliberately skipped by choice, no demo video. "Watch it run" stays
+  // hidden; the repo link (once public) carries the proof instead.
   videoUrl: null,
+
+  // TODO(blenard): LinkedIn profile URL. Until set, the LinkedIn button
+  // in Contact stays hidden.
+  linkedin: null,
 
   // TODO(blenard): Telegram username WITHOUT the @ (e.g. "godolkin").
   telegram: null,
