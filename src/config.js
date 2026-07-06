@@ -7,9 +7,7 @@ export const SITE = {
   // og:image / twitter:image tags in index.html to match.
   url: "https://godolkin.dev",
 
-  // TODO(blenard): public GitHub repo URL of the real Polymarket bot.
-  // Until it's public, the "See the real code" link stays hidden.
-  repoUrl: null,
+  repoUrl: "https://github.com/godolkin0/polymarket-weather-bot",
 
   // Deliberately skipped by choice, no demo video. "Watch it run" stays
   // hidden; the repo link (once public) carries the proof instead.
