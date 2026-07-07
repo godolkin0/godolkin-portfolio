@@ -10,7 +10,7 @@ const STRINGS = {
     common: { processing: "processing…" },
     nav: { contact: "contact" },
     hero: {
-      kicker: "Blenard · automation engineer for hire",
+      kicker: "Blenard · freelance automation developer",
       titleA: "Automation that actually ships.",
       titleB: "See it work before you hire me.",
       sub: "I design and ship automations for lead handling, reporting, and decision pipelines. The three below are real, running in your browser right now. Press run.",
@@ -155,7 +155,7 @@ const STRINGS = {
     common: { processing: "elaborazione…" },
     nav: { contact: "contatti" },
     hero: {
-      kicker: "Blenard · ingegnere dell'automazione freelance",
+      kicker: "Blenard · sviluppatore di automazioni freelance",
       titleA: "Automazione che va davvero in produzione.",
       titleB: "Vedila funzionare prima di assumermi.",
       sub: "Progetto e consegno automazioni per gestione lead, reportistica e pipeline decisionali. Le tre qui sotto sono reali e girano nel tuo browser in questo momento. Premi run.",
