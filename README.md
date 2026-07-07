@@ -1,6 +1,6 @@
 # Godolkin — portfolio
 
-Single-page portfolio for Blenard ("Godolkin") with three interactive automation demos. Fully static: every demo runs client-side on real logic with bundled historical data — no backend, no API keys, nothing to abuse. Bilingual (EN/IT) via the language toggle in the header.
+Single-page portfolio for Godolkin with three interactive automation demos. Fully static: every demo runs client-side on real logic with bundled historical data — no backend, no API keys, nothing to abuse. Bilingual (EN/IT) via the language toggle in the header.
 
 ## Stack
 

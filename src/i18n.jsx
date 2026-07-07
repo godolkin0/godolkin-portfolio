@@ -10,7 +10,7 @@ const STRINGS = {
     common: { processing: "processing…" },
     nav: { contact: "contact" },
     hero: {
-      kicker: "Blenard · freelance AI automation developer",
+      kicker: "Freelance AI automation developer",
       titleA: "Automation that actually ships.",
       titleB: "See it work before you hire me.",
       sub: "I design and ship automations for lead handling, reporting, and decision pipelines. The three below are real, running in your browser right now. Press run.",
@@ -138,7 +138,7 @@ const STRINGS = {
     },
     contact: {
       title: "Got a workflow that's eating hours?",
-      sub: "I'm Blenard. I build automations like the ones you just ran. Tell me what's slow and I'll tell you honestly whether automation fixes it.",
+      sub: "I'm Godolkin. I build automations like the ones you just ran. Tell me what's slow and I'll tell you honestly whether automation fixes it.",
       button: "Let's automate something →",
       copyAria: "Copy email address",
       copied: "Copied!",
@@ -147,7 +147,7 @@ const STRINGS = {
       booking: "Book 15 min",
     },
     footer:
-      "GODOLKIN · built by Blenard. Every demo on this page runs entirely in your browser: real logic, bundled historical data, zero backend.",
+      "GODOLKIN · Every demo on this page runs entirely in your browser: real logic, bundled historical data, zero backend.",
   },
 
   it: {
@@ -155,7 +155,7 @@ const STRINGS = {
     common: { processing: "elaborazione…" },
     nav: { contact: "contatti" },
     hero: {
-      kicker: "Blenard · sviluppatore di automazioni AI freelance",
+      kicker: "Sviluppatore di automazioni AI freelance",
       titleA: "Automazione che va davvero in produzione.",
       titleB: "Vedila funzionare prima di assumermi.",
       sub: "Progetto e consegno automazioni per gestione lead, reportistica e pipeline decisionali. Le tre qui sotto sono reali e girano nel tuo browser in questo momento. Premi run.",
@@ -283,7 +283,7 @@ const STRINGS = {
     },
     contact: {
       title: "Un flusso di lavoro ti sta mangiando ore?",
-      sub: "Sono Blenard. Costruisco automazioni come quelle che hai appena eseguito. Dimmi cosa è lento e ti dirò onestamente se l'automazione lo risolve.",
+      sub: "Sono Godolkin. Costruisco automazioni come quelle che hai appena eseguito. Dimmi cosa è lento e ti dirò onestamente se l'automazione lo risolve.",
       button: "Automatizziamo qualcosa →",
       copyAria: "Copia l'indirizzo email",
       copied: "Copiato!",
@@ -292,7 +292,7 @@ const STRINGS = {
       booking: "Prenota 15 minuti",
     },
     footer:
-      "GODOLKIN · creato da Blenard. Ogni demo di questa pagina gira interamente nel tuo browser: logica reale, dati storici inclusi, zero backend.",
+      "GODOLKIN · Ogni demo di questa pagina gira interamente nel tuo browser: logica reale, dati storici inclusi, zero backend.",
   },
 };
 

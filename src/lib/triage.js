@@ -146,7 +146,7 @@ const TEMPLATES = {
     budgetSmall: (amount) => `A budget around ${amount} works for a tightly scoped first version. I'll propose exactly what fits inside it.`,
     budgetSolid: (amount) => `A budget around ${amount} gives us real room to do this properly. I'll send a scoped proposal so you know exactly where it goes.`,
     timeline: (phrase) => `You mentioned "${phrase}" and I can accommodate that timeline.`,
-    close: "Would a 15-minute call tomorrow work? Reply with a time and I'll send an invite.\n\nBlenard",
+    close: "Would a 15-minute call tomorrow work? Reply with a time and I'll send an invite.\n\nGodolkin",
   },
   it: {
     openers: {
@@ -169,7 +169,7 @@ const TEMPLATES = {
     budgetSmall: (amount) => `Un budget intorno a ${amount} va bene per una prima versione dal perimetro stretto. Ti proporrò esattamente ciò che ci sta dentro.`,
     budgetSolid: (amount) => `Un budget intorno a ${amount} ci dà davvero spazio per farlo bene. Ti invierò una proposta dettagliata così sai esattamente dove va a finire.`,
     timeline: (phrase) => `Hai menzionato "${phrase}" e posso rispettare quella tempistica.`,
-    close: "Andrebbe bene una call di 15 minuti domani? Rispondi con un orario e ti mando l'invito.\n\nBlenard",
+    close: "Andrebbe bene una call di 15 minuti domani? Rispondi con un orario e ti mando l'invito.\n\nGodolkin",
   },
 };
 
