@@ -2,6 +2,7 @@ import { useState } from "react";
 import PolymarketDemo from "./components/PolymarketDemo";
 import TriageDemo from "./components/TriageDemo";
 import ReportDemo from "./components/ReportDemo";
+import Projects from "./components/Projects";
 import { Badge } from "./components/ui";
 import { Reveal } from "./components/Reveal";
 import { useI18n } from "./i18n";
@@ -36,6 +37,7 @@ export default function App() {
             <ReportDemo />
           </CaseStudy>
         </main>
+        <Projects />
         <HowIWork />
         <Contact emailHref={emailHref} />
         <Footer />

@@ -108,6 +108,13 @@ const STRINGS = {
       reportKicker: "Weekly performance report",
       chartTitle: "Conversions by week",
     },
+    projects: {
+      heading: "More builds, by sector",
+      subhead: "Automations I've shipped in production, grouped by the sector they serve.",
+      liveBadge: "Live",
+      privateBadge: "Private build",
+      viewLive: "View live",
+    },
     how: {
       title: "How I work",
       items: [
@@ -245,6 +252,13 @@ const STRINGS = {
       biggestMover: "variazione maggiore:",
       reportKicker: "Report settimanale delle performance",
       chartTitle: "Conversioni per settimana",
+    },
+    projects: {
+      heading: "Altri progetti, per settore",
+      subhead: "Automazioni che ho portato in produzione, raggruppate per settore.",
+      liveBadge: "Online",
+      privateBadge: "Progetto privato",
+      viewLive: "Vedi il sito",
     },
     how: {
       title: "Come lavoro",

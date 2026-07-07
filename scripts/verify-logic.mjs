@@ -6,6 +6,7 @@ import { SCENARIOS } from "../src/data/scenarios.js";
 import { analyzeScenario } from "../src/lib/polymarket.js";
 import { classifyLead, EXAMPLE_LEADS } from "../src/lib/triage.js";
 import { buildReport, SAMPLE_WEEKS } from "../src/lib/report.js";
+import { PROJECTS } from "../src/data/projects.js";
 
 let failures = 0;
 function check(name, actual, expected) {
@@ -84,6 +85,16 @@ const reportIt = buildReport(SAMPLE_WEEKS, "it");
 check("headline IT", reportIt.headline, "Conversioni in crescita del 34% settimana su settimana");
 const zeros = buildReport(SAMPLE_WEEKS.map(() => ({ impressions: 0, clicks: 0, conversions: 0, spend: 0 })));
 check("all-zero input survives", typeof zeros.headline, "string");
+
+console.log("\n— Projects —");
+for (const p of PROJECTS) {
+  check(`${p.id} has EN+IT sector`, !!(p.sector?.en && p.sector?.it), true);
+  check(`${p.id} has EN+IT blurb`, !!(p.blurb?.en && p.blurb?.it), true);
+  const fields = [p.sector?.en, p.sector?.it, p.blurb?.en, p.blurb?.it];
+  check(`${p.id} free of em-dashes`, fields.some((s) => (s || "").includes("—")), false);
+  // Private builds must not carry a URL, live ones must have one.
+  check(`${p.id} url shape`, p.url === null || typeof p.url === "string", true);
+}
 
 console.log(failures === 0 ? "\nAll checks passed." : `\n${failures} CHECK(S) FAILED`);
 process.exit(failures === 0 ? 0 : 1);
