@@ -13,6 +13,13 @@ dist/
 # vercel
 .vercel/
 
+# growth pipeline: real prospect contacts and pitch history.
+# Third-party business data and outreach records — never in a public repo.
+# Only prospects.sample.csv (fictional rows) is tracked.
+growth/data/prospects.csv
+growth/data/log.csv
+growth/out/
+
 # claude code tooling + internal build brief (keep the public repo clean)
 .claude/
 fable5-build-prompt.md

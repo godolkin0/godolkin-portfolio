@@ -1,0 +1,14 @@
+# id: email-followup1
+# channel: email
+# stage: followup1
+# variant: F1
+# lang: it
+# subject: (rispondi nel thread originale, non aprire una mail nuova)
+---
+{{contact}}, ti rimbalzo il messaggio qui sopra — probabilmente è arrivato in un momento sbagliato.
+
+Una riga sola: vuoi vedere come arriva un lead già qualificato sul telefono in un secondo, sul sito di {{business}}?
+
+Dieci minuti. Se non serve, ci salutiamo e finisce lì.
+
+{{me}}

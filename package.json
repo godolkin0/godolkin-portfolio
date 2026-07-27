@@ -8,6 +8,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "verify": "node scripts/verify-logic.mjs",
+    "growth:messages": "node growth/tools/outreach.mjs",
+    "growth:log": "node growth/tools/pipeline.mjs log",
+    "growth:report": "node growth/tools/pipeline.mjs report",
+    "growth:next": "node growth/tools/pipeline.mjs next",
     "assets": "powershell -ExecutionPolicy Bypass -File scripts/generate-assets.ps1"
   },
   "dependencies": {

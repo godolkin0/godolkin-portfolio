@@ -1,0 +1,14 @@
+# id: email-breakup
+# channel: email
+# stage: breakup
+# variant: F3
+# lang: it
+# subject: (rispondi nel thread originale)
+---
+{{contact}}, chiudo qui — immagino non sia il momento, e ci sta.
+
+Se in futuro i lead del sito diventano un problema, sai dove trovarmi: {{portfolio}}
+
+Buon lavoro.
+
+{{me}}

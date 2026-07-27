@@ -1,0 +1,10 @@
+# id: ig-a-domanda
+# channel: ig
+# stage: outreach
+# variant: A
+# lang: it
+# subject: —
+---
+Ciao! Seguo {{business}} — {{signal}}.
+
+Curiosità da addetto ai lavori: le richieste che arrivano dal sito la sera, chi le vede per primo?

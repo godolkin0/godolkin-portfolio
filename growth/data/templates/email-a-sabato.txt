@@ -1,0 +1,20 @@
+# id: email-a-sabato
+# channel: email
+# stage: outreach
+# variant: A
+# lang: it
+# subject: lead del sabato sera
+---
+Ciao {{contact}},
+
+ho guardato il sito di {{business}} — {{signal}}.
+
+Domanda secca: quando arriva una richiesta dal form il sabato sera, chi la vede, e quando?
+
+Nella maggior parte delle agenzie la risposta onesta è "lunedì". Io collego il form al telefono dell'agente: il lead arriva in un secondo, già segnato hot / warm / cold, con budget e zona.
+
+Se ti va te lo faccio vedere su {{business}} in dieci minuti. Qui intanto gira dal vivo: {{portfolio}}
+
+{{me}}
+
+Se non ti interessa rispondi "no" e non ti scrivo più.

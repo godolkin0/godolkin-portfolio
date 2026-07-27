@@ -1,0 +1,14 @@
+# id: email-followup2
+# channel: email
+# stage: followup2
+# variant: F2
+# lang: it
+# subject: (rispondi nel thread originale)
+---
+{{contact}}, ultimo tentativo utile e poi ti lascio in pace.
+
+Ho preparato comunque una prova con lo stesso motore: {{demo}}
+
+Se ti è utile scrivimi due righe. Altrimenti resta lì, e non ti scrivo più.
+
+{{me}} — {{portfolio}}

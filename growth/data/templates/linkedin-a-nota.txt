@@ -1,0 +1,8 @@
+# id: linkedin-a-nota
+# channel: linkedin
+# stage: outreach
+# variant: A
+# lang: it
+# subject: —
+---
+Ciao {{contact}}, lavoro con agenzie a {{city}}: faccio arrivare i lead del sito sul telefono dell'agente in un secondo, già qualificati. Ho notato che {{signal}}. Se ti va ti mostro come funziona su {{business}}.

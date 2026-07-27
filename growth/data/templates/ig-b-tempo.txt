@@ -1,0 +1,10 @@
+# id: ig-b-tempo
+# channel: ig
+# stage: outreach
+# variant: B
+# lang: it
+# subject: —
+---
+Ciao {{contact}}, domanda veloce su {{business}}: quando qualcuno compila il form del sito, quanto passa prima che lo richiamiate?
+
+Chiedo perché ho appena sistemato questa cosa per un'agenzia e i numeri veri erano parecchio peggio di quanto pensassero.

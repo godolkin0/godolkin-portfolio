@@ -1,0 +1,18 @@
+# id: email-c-corta
+# channel: email
+# stage: outreach
+# variant: C
+# lang: it
+# subject: un secondo, non quattordici ore
+---
+{{contact}},
+
+{{signal}}.
+
+Faccio arrivare i lead del sito sul telefono dell'agente in un secondo, già qualificati, invece che in una casella che si legge a fine giornata. L'ho costruito per un'agenzia che aveva esattamente lo stesso problema.
+
+Ti interessa vederlo su {{business}}? Rispondi "sì" e ti mando tre minuti di video, senza call.
+
+{{me}} — {{portfolio}}
+
+(dimmi di no e non ti scrivo più)

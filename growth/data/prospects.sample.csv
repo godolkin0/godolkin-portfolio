@@ -1,0 +1,6 @@
+id,business,contact,city,niche,site,email,ig,linkedin,signal,status,notes
+esempio-uno,Agenzia Esempio Uno,Marco,Bergamo,real-estate,https://esempio-uno.it,info@esempio-uno.it,@esempiouno,,"il form contatti manda solo una mail generica, nessuna risposta automatica",new,fictional sample row
+esempio-due,Immobiliare Esempio Due,Giulia,Brescia,real-estate,https://esempio-due.it,contatti@esempio-due.it,@esempiodue,https://linkedin.com/in/esempio-due,"52 annunci attivi ma il form non chiede né budget né tempistiche",new,fictional sample row
+esempio-tre,Studio Esempio Tre,Alessandro,Bergamo,property-mgmt,https://esempio-tre.it,,@esempiotre,,"pubblicano ogni giorno su IG ma il link in bio porta alla home, non a un form",new,fictional sample row
+esempio-quattro,Esempio Quattro Case,Sara,Monza,real-estate,https://esempio-quattro.it,info@esempio-quattro.it,,https://linkedin.com/in/esempio-quattro,"nella pagina contatti promettono risposta entro 24h",new,fictional sample row
+esempio-cinque,Mediazioni Esempio Cinque,Davide,Brescia,mortgage-broker,https://esempio-cinque.it,posta@esempio-cinque.it,@esempiocinque,,"4 agenti nel team, nessun numero diretto sul sito",new,fictional sample row

@@ -1,0 +1,20 @@
+# id: email-en-a
+# channel: email-en
+# stage: outreach
+# variant: A
+# lang: en
+# subject: saturday night leads
+---
+Hi {{contact}},
+
+I had a look at {{business}} — {{signal}}.
+
+One straight question: when an enquiry comes through the form on a Saturday night, who sees it, and when?
+
+For most agencies the honest answer is Monday. I wire the form to the agent's phone instead: the lead lands in one second, already scored hot / warm / cold, with budget and area attached.
+
+Happy to show you on {{business}} in ten minutes. It runs live here meanwhile: {{portfolio}}
+
+{{me}}
+
+Not interested? Reply "no" and I won't write again.

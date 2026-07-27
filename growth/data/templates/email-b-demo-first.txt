@@ -1,0 +1,22 @@
+# id: email-b-demo-first
+# channel: email
+# stage: outreach
+# variant: B
+# lang: it
+# subject: te lo costruisco prima
+---
+Ciao {{contact}},
+
+{{signal}} — su {{business}}.
+
+Non ti chiedo una call. Ti propongo il contrario: prendo il form del vostro sito e vi mando una versione funzionante in cui la richiesta arriva sul telefono in un secondo, già qualificata, con gli annunci che le corrispondono.
+
+Se vi serve ne parliamo. Se non vi serve, tenete il link e buon lavoro.
+
+Mi bastano due cose per farlo: il logo e il numero su cui volete ricevere le notifiche.
+
+Esempio dal vivo, stesso motore: {{demo}}
+
+{{me}} — {{portfolio}}
+
+Rispondi "basta" e sparisco.
