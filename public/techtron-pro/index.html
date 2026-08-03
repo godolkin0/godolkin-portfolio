@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tech-Tron | Telecom, Security &amp; Low-Voltage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+:root{--ink:#050C13;--ink2:#0A1622;--cream:#F3EFE7;--accent:#FF5A1F;--blue:#4FA3E3;--dim:rgba(243,239,231,.55)}
+*{box-sizing:border-box}
+body{margin:0;background:#050C13;color:#F3EFE7;font-family:'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-wrap:pretty;overflow-x:hidden}
+::selection{background:rgba(243,239,231,.22)}
+a{color:var(--cream);text-decoration:none}
+a:hover{color:var(--accent)}
+@keyframes ttRec{0%,100%{opacity:1}50%{opacity:.1}}
+@keyframes ttScan{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
+@keyframes ttTick{0%{opacity:.25}50%{opacity:1}100%{opacity:.25}}
+</style>
+</helmet>
+
+<div data-media style="position:fixed;inset:0;z-index:0;background:#050C13;overflow:hidden;pointer-events:none">
+  <div data-layer="0" data-cap="Structured cabling / Cat6 dressed into a patch panel" style="position:absolute;inset:-4%;opacity:1"><image-slot id="tt2-m1" shape="rect" src="./assets/photos/shot-2.png" placeholder="Structured cabling rack"></image-slot></div>
+  <div data-layer="1" data-cap="CCTV / dome camera at a rolling gate" style="position:absolute;inset:-4%;opacity:0"><image-slot id="tt2-m2" shape="rect" src="./assets/photos/shot-5.png" placeholder="CCTV dome camera"></image-slot></div>
+  <div data-layer="2" data-cap="Alarm / panel wired, terminated and programmed" style="position:absolute;inset:-4%;opacity:0"><image-slot id="tt2-m3" shape="rect" src="./assets/photos/shot-6.png" placeholder="Alarm panel"></image-slot></div>
+  <div data-layer="3" data-cap="Rooftop / wireless mast, grounded and sealed" style="position:absolute;inset:-4%;opacity:0"><image-slot id="tt2-m4" shape="rect" src="./assets/photos/shot-1.png" placeholder="Rooftop antenna install"></image-slot></div>
+  <div data-layer="4" data-cap="Low voltage / exterior conduit through stucco" style="position:absolute;inset:-4%;opacity:0"><image-slot id="tt2-m5" shape="rect" src="./assets/photos/shot-4.png" placeholder="Conduit / wall penetration"></image-slot></div>
+  <div data-layer="5" data-cap="Field / service van staged for a cabling call" style="position:absolute;inset:-4%;opacity:0"><image-slot id="tt2-m6" shape="rect" src="./assets/photos/shot-3.png" placeholder="Service van interior"></image-slot></div>
+  <div style="position:absolute;inset:0;background:radial-gradient(120% 90% at 65% 30%,rgba(5,12,19,.25),rgba(5,12,19,.86) 70%),linear-gradient(180deg,rgba(5,12,19,.75),rgba(5,12,19,.35) 35%,rgba(5,12,19,.9))"></div>
+  <div style="position:absolute;inset:0;opacity:.16;background:repeating-linear-gradient(180deg,rgba(243,239,231,.5) 0 1px,transparent 1px 4px);mix-blend-mode:overlay"></div>
+  <div style="position:absolute;left:0;right:0;height:38vh;background:linear-gradient(180deg,transparent,rgba(79,163,227,.07),transparent);animation:ttScan 7.5s linear infinite"></div>
+</div>
+
+<div data-hud style="position:fixed;inset:0;z-index:30;pointer-events:none;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--cream)">
+  <div style="position:absolute;top:76px;left:22px;display:flex;align-items:center;gap:8px;text-shadow:0 1px 6px rgba(0,0,0,.6)">
+    <span style="width:7px;height:7px;border-radius:50%;background:var(--accent);animation:ttRec 1.6s infinite"></span>REC
+    <span data-tc style="color:var(--dim)">00:00:00:00</span>
+  </div>
+  <div style="position:absolute;top:76px;right:22px;text-align:right;color:var(--dim);text-shadow:0 1px 6px rgba(0,0,0,.6)">
+    <span data-ch>CH 01</span> / 06
+  </div>
+  <div style="position:absolute;left:22px;bottom:20px;right:22px;display:flex;justify-content:space-between;gap:20px;color:var(--dim);text-shadow:0 1px 6px rgba(0,0,0,.6)">
+    <span data-cap-out style="color:var(--cream)">Structured cabling / Cat6 dressed into a patch panel</span>
+    <span>CA LIC 1155903</span>
+  </div>
+  <div data-reticle style="position:absolute;left:50%;top:52%;width:112px;height:112px;margin:-56px 0 0 -56px;opacity:.5">
+    <div style="position:absolute;inset:0;border:1px solid rgba(243,239,231,.35)"></div>
+    <div style="position:absolute;left:-5px;top:-5px;width:12px;height:12px;border-left:2px solid var(--blue);border-top:2px solid var(--blue)"></div>
+    <div style="position:absolute;right:-5px;top:-5px;width:12px;height:12px;border-right:2px solid var(--blue);border-top:2px solid var(--blue)"></div>
+    <div style="position:absolute;left:-5px;bottom:-5px;width:12px;height:12px;border-left:2px solid var(--blue);border-bottom:2px solid var(--blue)"></div>
+    <div style="position:absolute;right:-5px;bottom:-5px;width:12px;height:12px;border-right:2px solid var(--blue);border-bottom:2px solid var(--blue)"></div>
+  </div>
+</div>
+
+<div style="position:relative;z-index:10">
+  <nav style="position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;gap:20px;padding:14px 22px;border-bottom:1px solid rgba(243,239,231,.14);background:rgba(5,12,19,.35);backdrop-filter:blur(14px)">
+    <div style="display:flex;align-items:center;gap:11px;white-space:nowrap">
+      <img src="./assets/techtron-mark.png" alt="Tech-Tron" style="width:30px;height:30px;border-radius:50%;display:block">
+      <span style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:21px;letter-spacing:.04em;text-transform:uppercase">Tech-Tron</span>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;align-items:center;gap:26px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);white-space:nowrap">
+      <a href="#scope" style="color:inherit" style-hover="color:var(--cream)">Scope</a>
+      <a href="#record" style="color:inherit" style-hover="color:var(--cream)">Field record</a>
+      <a href="#lpr" style="color:inherit" style-hover="color:var(--cream)">Capability</a>
+    </div>
+    <a href="#contact" style="display:flex;align-items:center;gap:9px;padding:9px 16px;border:1px solid rgba(243,239,231,.22);background:rgba(243,239,231,.1);backdrop-filter:blur(8px);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap" style-hover="background:rgba(243,239,231,.22)">Call {{ phone }}</a>
+  </nav>
+
+  <section style="min-height:100vh;padding:92px 26px 26px;display:flex;flex-direction:column;justify-content:space-between;gap:40px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap">
+      <div style="display:flex;flex-direction:column;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;text-shadow:0 1px 8px rgba(0,0,0,.5)">
+        <span data-reveal data-delay="140">/ Structured cabling</span>
+        <span data-reveal data-delay="240">/ CCTV &amp; access control</span>
+        <span data-reveal data-delay="340">/ Alarm &amp; fire panels</span>
+        <span data-reveal data-delay="440">/ Low-voltage electrical</span>
+        <span data-reveal data-delay="540">/ Rooftop wireless</span>
+      </div>
+      <p data-reveal data-delay="320" style="margin:0;max-width:30ch;text-align:right;font-size:17px;line-height:1.5;text-shadow:0 1px 10px rgba(0,0,0,.6)">
+        We install the systems a building runs on, then hand over the test results, labels and paperwork that prove it.
+      </p>
+    </div>
+
+    <div data-hero-fade style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap">
+      <div>
+        <div data-reveal data-delay="120" style="display:inline-flex;align-items:center;gap:12px;border-left:2px solid var(--accent);background:rgba(243,239,231,.12);backdrop-filter:blur(10px);padding:8px 14px;margin-bottom:20px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase">
+          CA Lic #1155903 <span style="color:var(--dim)">·</span> DIR #2000028853
+        </div>
+        <h1 data-reveal data-delay="240" style="margin:0;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:clamp(46px,8.4vw,132px);line-height:.92;letter-spacing:-.015em;text-transform:uppercase;text-shadow:0 6px 34px rgba(0,0,0,.6)">
+          Wired. Tested.<br>Signed off.
+        </h1>
+      </div>
+      <div data-reveal data-delay="420" style="display:flex;align-items:center;gap:14px;padding:12px;background:rgba(243,239,231,.12);border:1px solid rgba(243,239,231,.18);backdrop-filter:blur(12px)">
+        <div style="width:74px;height:92px;flex:none;overflow:hidden"><image-slot id="tt2-crew" shape="rect" placeholder="Crew"></image-slot></div>
+        <div style="display:flex;flex-direction:column;gap:6px;padding-right:6px">
+          <span style="font-size:14px;font-weight:500">Talk to the field office</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)">Mon to Sat · California</span>
+          <a href="#contact" style="margin-top:4px;display:inline-flex;align-items:center;gap:8px;background:var(--cream);color:#050C13;padding:9px 14px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase" style-hover="background:var(--accent)">Book a walkthrough →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div aria-hidden="true" style="height:70vh"></div>
+
+  <section id="scope" style="min-height:100vh;padding:26px 26px 60px;display:flex;flex-direction:column;justify-content:space-between;gap:44px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap">
+      <div data-reveal data-delay="120" style="border-left:2px solid var(--accent);background:rgba(243,239,231,.12);backdrop-filter:blur(10px);padding:8px 14px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase">Scope of work</div>
+      <p data-reveal data-delay="220" style="margin:0;max-width:34ch;text-align:right;font-size:17px;line-height:1.5;text-shadow:0 1px 10px rgba(0,0,0,.6)">Five trades under one license number, pulled, terminated, labeled and tested by our own crew.</p>
+    </div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:48px;flex-wrap:wrap">
+      <div style="max-width:34ch">
+        <h2 data-reveal data-delay="160" style="margin:0;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:clamp(40px,6.6vw,104px);line-height:.92;letter-spacing:-.015em;text-transform:uppercase;text-shadow:0 6px 30px rgba(0,0,0,.6)">What we<br>install.</h2>
+        <p data-reveal data-delay="300" style="margin:20px 0 0;font-size:15px;line-height:1.6;color:rgba(243,239,231,.78)">New construction, tenant improvement, retrofit and service. Bid-ready for prevailing-wage public works.</p>
+      </div>
+      <div data-reveal data-delay="360" style="flex:1 1 380px;max-width:520px;border:1px solid rgba(243,239,231,.16);background:rgba(243,239,231,.09);backdrop-filter:blur(14px);padding:0 22px">
+        <div data-row style="display:flex;gap:20px;padding:17px 0;border-bottom:1px solid rgba(243,239,231,.14);transition:background .3s" style-hover="background:rgba(243,239,231,.06)">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--accent);padding-top:5px">01</span>
+          <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:24px;text-transform:uppercase;letter-spacing:.01em">Structured cabling</div><div style="margin-top:5px;font-size:13.5px;line-height:1.55;color:rgba(243,239,231,.7)">Cat6 / Cat6A and fiber, patch panels, rack builds, per-drop certification.</div></div>
+        </div>
+        <div data-row style="display:flex;gap:20px;padding:17px 0;border-bottom:1px solid rgba(243,239,231,.14);transition:background .3s" style-hover="background:rgba(243,239,231,.06)">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--accent);padding-top:5px">02</span>
+          <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:24px;text-transform:uppercase;letter-spacing:.01em">CCTV &amp; access control</div><div style="margin-top:5px;font-size:13.5px;line-height:1.55;color:rgba(243,239,231,.7)">IP cameras, NVR and retention setup, readers, maglocks, gate hardware.</div></div>
+        </div>
+        <div data-row style="display:flex;gap:20px;padding:17px 0;border-bottom:1px solid rgba(243,239,231,.14);transition:background .3s" style-hover="background:rgba(243,239,231,.06)">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--accent);padding-top:5px">03</span>
+          <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:24px;text-transform:uppercase;letter-spacing:.01em">Alarm &amp; fire panels</div><div style="margin-top:5px;font-size:13.5px;line-height:1.55;color:rgba(243,239,231,.7)">Bosch and equivalent panels, device wiring, zone programming, walk tests.</div></div>
+        </div>
+        <div data-row style="display:flex;gap:20px;padding:17px 0;border-bottom:1px solid rgba(243,239,231,.14);transition:background .3s" style-hover="background:rgba(243,239,231,.06)">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--accent);padding-top:5px">04</span>
+          <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:24px;text-transform:uppercase;letter-spacing:.01em">Low-voltage electrical</div><div style="margin-top:5px;font-size:13.5px;line-height:1.55;color:rgba(243,239,231,.7)">Conduit, core drilling, penetrations, junction boxes, weather-sealed patch-back.</div></div>
+        </div>
+        <div data-row style="display:flex;gap:20px;padding:17px 0;transition:background .3s" style-hover="background:rgba(243,239,231,.06)">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--accent);padding-top:5px">05</span>
+          <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:24px;text-transform:uppercase;letter-spacing:.01em">Rooftop wireless</div><div style="margin-top:5px;font-size:13.5px;line-height:1.55;color:rgba(243,239,231,.7)">Mast mounts, point-to-point links, grounding and surge, runs down to the IDF.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div aria-hidden="true" style="height:60vh"></div>
+
+  <section id="record" style="min-height:100vh;padding:26px 26px 60px;display:flex;flex-direction:column;justify-content:space-between;gap:44px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap">
+      <div data-reveal data-delay="120" style="border-left:2px solid var(--accent);background:rgba(243,239,231,.12);backdrop-filter:blur(10px);padding:8px 14px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase">Field record</div>
+      <p data-reveal data-delay="220" style="margin:0;max-width:32ch;text-align:right;font-size:17px;line-height:1.5;text-shadow:0 1px 10px rgba(0,0,0,.6)">Stand-in frames for now. Swap in the real Tech-Tron jobsite photos and the background sequence updates with them.</p>
+    </div>
+    <div>
+      <h2 data-reveal data-delay="160" style="margin:0;max-width:22ch;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:clamp(40px,6.6vw,104px);line-height:.92;letter-spacing:-.015em;text-transform:uppercase;text-shadow:0 6px 30px rgba(0,0,0,.6)">Shot on the jobsite.</h2>
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:28px">
+        <div data-reveal data-delay="240" style="display:flex;flex-direction:column;gap:8px">
+          <div style="position:relative;aspect-ratio:3/4;border:1px solid rgba(243,239,231,.2);overflow:hidden"><image-slot id="tt2-m1" shape="rect" src="./assets/photos/shot-2.png" placeholder="Drop: cabling rack"></image-slot></div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)">01 Cable plant</span>
+        </div>
+        <div data-reveal data-delay="310" style="display:flex;flex-direction:column;gap:8px">
+          <div style="position:relative;aspect-ratio:3/4;border:1px solid rgba(243,239,231,.2);overflow:hidden"><image-slot id="tt2-m2" shape="rect" src="./assets/photos/shot-5.png" placeholder="Drop: CCTV camera"></image-slot></div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)">02 Gate camera</span>
+        </div>
+        <div data-reveal data-delay="380" style="display:flex;flex-direction:column;gap:8px">
+          <div style="position:relative;aspect-ratio:3/4;border:1px solid rgba(243,239,231,.2);overflow:hidden"><image-slot id="tt2-m3" shape="rect" src="./assets/photos/shot-6.png" placeholder="Drop: alarm panel"></image-slot></div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)">03 Bosch panel</span>
+        </div>
+        <div data-reveal data-delay="450" style="display:flex;flex-direction:column;gap:8px">
+          <div style="position:relative;aspect-ratio:3/4;border:1px solid rgba(243,239,231,.2);overflow:hidden"><image-slot id="tt2-m4" shape="rect" src="./assets/photos/shot-1.png" placeholder="Drop: rooftop antenna"></image-slot></div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)">04 Rooftop</span>
+        </div>
+        <div data-reveal data-delay="520" style="display:flex;flex-direction:column;gap:8px">
+          <div style="position:relative;aspect-ratio:3/4;border:1px solid rgba(243,239,231,.2);overflow:hidden"><image-slot id="tt2-m5" shape="rect" src="./assets/photos/shot-4.png" placeholder="Drop: conduit run"></image-slot></div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)">05 Conduit</span>
+        </div>
+        <div data-reveal data-delay="590" style="display:flex;flex-direction:column;gap:8px">
+          <div style="position:relative;aspect-ratio:3/4;border:1px solid rgba(243,239,231,.2);overflow:hidden"><image-slot id="tt2-m6" shape="rect" src="./assets/photos/shot-3.png" placeholder="Drop: service van"></image-slot></div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)">06 Field</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="lpr" style="min-height:100vh;padding:26px 26px 60px;display:flex;flex-direction:column;justify-content:space-between;gap:44px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap">
+      <div data-reveal data-delay="120" style="border-left:2px solid var(--accent);background:rgba(243,239,231,.12);backdrop-filter:blur(10px);padding:8px 14px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase">Capability</div>
+      <p data-reveal data-delay="220" style="margin:0;max-width:32ch;text-align:right;font-size:17px;line-height:1.5;text-shadow:0 1px 10px rgba(0,0,0,.6)">Camera systems that read plates at the gate, log the entry, and flag what's on the list.</p>
+    </div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:48px;flex-wrap:wrap">
+      <div style="max-width:32ch">
+        <h2 data-reveal data-delay="160" style="margin:0;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:clamp(40px,6.6vw,104px);line-height:.92;letter-spacing:-.015em;text-transform:uppercase;text-shadow:0 6px 30px rgba(0,0,0,.6)">Plate capture at the gate.</h2>
+        <div data-reveal data-delay="320" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase">
+          <span style="border:1px solid rgba(243,239,231,.22);background:rgba(243,239,231,.08);padding:7px 10px">Plate capture</span>
+          <span style="border:1px solid rgba(243,239,231,.22);background:rgba(243,239,231,.08);padding:7px 10px">Gate triggers</span>
+          <span style="border:1px solid rgba(243,239,231,.22);background:rgba(243,239,231,.08);padding:7px 10px">Event log</span>
+          <span style="border:1px solid rgba(243,239,231,.22);background:rgba(243,239,231,.08);padding:7px 10px">Watch lists</span>
+        </div>
+      </div>
+      <div data-reveal data-delay="380" style="flex:1 1 360px;max-width:460px;border:1px solid rgba(243,239,231,.18);background:rgba(5,12,19,.55);backdrop-filter:blur(14px);padding:18px 20px 20px">
+        <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid rgba(243,239,231,.16);padding-bottom:12px">
+          <span>LPR / Gate 02 / live</span><span style="display:flex;align-items:center;gap:7px"><span style="width:6px;height:6px;background:var(--blue);animation:ttTick 1.4s infinite"></span>Reading</span>
+        </div>
+        <div style="display:flex;align-items:baseline;gap:14px;margin-top:18px">
+          <span data-plate style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:clamp(38px,5vw,62px);letter-spacing:.06em;line-height:1">8XKT492</span>
+          <span data-conf style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--accent)">98.4%</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase">
+          <div><div style="color:var(--dim)">Vehicle</div><div data-veh style="margin-top:5px">White F-250</div></div>
+          <div><div style="color:var(--dim)">Status</div><div data-status style="margin-top:5px;color:var(--blue)">On list, open</div></div>
+          <div><div style="color:var(--dim)">Logged</div><div data-logged style="margin-top:5px">07:42:11</div></div>
+          <div><div style="color:var(--dim)">Retention</div><div style="margin-top:5px">30 days</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="min-height:100vh;padding:26px 26px 0;display:flex;flex-direction:column;justify-content:space-between;gap:44px;background:linear-gradient(180deg,rgba(5,12,19,0),rgba(5,12,19,.92) 40%)">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap">
+      <div data-reveal data-delay="120" style="border-left:2px solid var(--accent);background:rgba(243,239,231,.12);backdrop-filter:blur(10px);padding:8px 14px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase">Contact</div>
+      <p data-reveal data-delay="220" style="margin:0;max-width:30ch;text-align:right;font-size:17px;line-height:1.5">Estimates on plans or in the field. Bid packages for public works.</p>
+    </div>
+    <div>
+      <h2 data-reveal data-delay="160" style="margin:0;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:clamp(40px,7vw,112px);line-height:.9;letter-spacing:-.015em;text-transform:uppercase">Call for a walkthrough.</h2>
+      <div data-reveal data-delay="300" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:30px">
+        <a href="#contact" style="display:inline-flex;align-items:baseline;gap:16px;background:var(--cream);color:#050C13;padding:16px 24px;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:clamp(30px,4vw,54px);line-height:1;letter-spacing:.02em" style-hover="background:var(--accent)">{{ phone }}<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;font-weight:400;text-transform:uppercase">Mon to Sat</span></a>
+        <a href="https://instagram.com/techtron_telecommunications" style="display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(243,239,231,.24);background:rgba(243,239,231,.08);backdrop-filter:blur(10px);padding:16px 22px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--cream)" style-hover="background:rgba(243,239,231,.2)">@techtron_telecommunications</a>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;padding:22px 0 26px;border-top:1px solid rgba(243,239,231,.16);font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim)">
+      <span style="display:flex;align-items:center;gap:10px"><img src="./assets/techtron-mark.png" alt="" style="width:22px;height:22px;border-radius:50%;display:block;opacity:.9">Tech-Tron Telecommunications &amp; Electrical</span>
+      <span>CA Lic #1155903 · DIR #2000028853</span>
+      <span>Low voltage · Telecom · Security</span>
+    </div>
+  </section>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#4FA3E3&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#FF5A1F&quot;,&quot;#4FA3E3&quot;,&quot;#F2B705&quot;,&quot;#E8E4DA&quot;],&quot;section&quot;:&quot;Brand&quot;},&quot;phone&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;(209) 000-0000&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Brand&quot;},&quot;showHud&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;smooth&quot;,&quot;options&quot;:[&quot;smooth&quot;,&quot;basic&quot;,&quot;off&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
+const PLATES = [
+  { p: "8XKT492", c: "98.4%", v: "White F-250", s: "On list, open", col: "var(--blue)" },
+  { p: "6RJD117", c: "96.1%", v: "Grey Transit", s: "Not on list, hold", col: "var(--accent)" },
+  { p: "9BQZ308", c: "99.2%", v: "Black Silverado", s: "On list, open", col: "var(--blue)" }
+];
+
+class Component extends DCLogic {
+  renderVals() {
+    return { phone: this.props.phone ?? "(209) 000-0000" };
+  }
+
+  componentDidMount() {
+    this.applyTweaks();
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mode = this.props.motion ?? "smooth";
+    const still = mode === "off" || reduced;
+
+    if (!still && mode === "smooth") {
+      this.t = window.scrollY; this.c = window.scrollY; this.w = 0;
+      this.onWheel = (e) => {
+        if (e.ctrlKey) return;
+        e.preventDefault();
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        this.t = Math.max(0, Math.min(max, this.t + e.deltaY * (e.deltaMode === 1 ? 22 : 1)));
+        this.w = performance.now();
+      };
+      window.addEventListener("wheel", this.onWheel, { passive: false });
+    }
+
+    const items = [...document.querySelectorAll("[data-reveal]")];
+    const show = (el) => {
+      el.style.transitionDelay = (still ? 0 : (+el.dataset.delay || 0)) + "ms";
+      el.style.opacity = "1";
+      el.style.transform = "none";
+    };
+    if (!still) {
+      items.forEach((el) => {
+        el.style.opacity = "0";
+        el.style.transform = "translateY(26px)";
+        el.style.transition = "opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1)";
+        el.style.willChange = "transform,opacity";
+      });
+      if ("IntersectionObserver" in window) {
+        this.io = new IntersectionObserver((es) => {
+          es.forEach((e) => { if (e.isIntersecting) { show(e.target); this.io.unobserve(e.target); } });
+        }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
+        items.forEach((el) => this.io.observe(el));
+        this.fs = setTimeout(() => items.forEach(show), 4500);
+      } else items.forEach(show);
+    }
+
+    this.start();
+    if (this.watchdog) clearInterval(this.watchdog);
+    this.watchdog = setInterval(() => {
+      if (!document.querySelector("[data-media]")) return;
+      if (!this.beat || performance.now() - this.beat > 600) this.start();
+    }, 1200);
+  }
+
+  start() {
+    if (this.raf) cancelAnimationFrame(this.raf);
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mode = this.props.motion ?? "smooth";
+    const still = mode === "off" || reduced;
+    if (this.t === undefined) { this.t = window.scrollY; this.c = window.scrollY; this.w = 0; }
+    const layers = [...document.querySelectorAll("[data-layer]")];
+    if (!layers.length) return;
+    const tc = document.querySelector("[data-tc]");
+    const ch = document.querySelector("[data-ch]");
+    const capOut = document.querySelector("[data-cap-out]");
+    const reticle = document.querySelector("[data-reticle]");
+    const heroFade = document.querySelector("[data-hero-fade]");
+    const plate = document.querySelector("[data-plate]");
+    const conf = document.querySelector("[data-conf]");
+    const veh = document.querySelector("[data-veh]");
+    const status = document.querySelector("[data-status]");
+    const logged = document.querySelector("[data-logged]");
+    const clamp = (v) => Math.max(0, Math.min(1, v));
+    const pad = (n, w) => String(Math.floor(n)).padStart(w, "0");
+
+    if (this.sm === undefined) this.sm = 0;
+    if (this.lastPlate === undefined) this.lastPlate = -1;
+    const frame = (now) => {
+      this.beat = now;
+      if (!still && mode === "smooth") {
+        const idle = now - this.w > 220;
+        if (idle && Math.abs(window.scrollY - this.c) > 2) { this.c = window.scrollY; this.t = window.scrollY; }
+        const d = this.t - this.c;
+        if (Math.abs(d) > 0.4) { this.c += d * 0.1; window.scrollTo(0, this.c); }
+        else if (this.c !== this.t) { this.c = this.t; window.scrollTo(0, this.c); }
+      }
+
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const prog = clamp(max > 0 ? window.scrollY / max : 0);
+      this.sm += (prog - this.sm) * (still ? 1 : 0.12);
+      const p = this.sm;
+
+      // scrub-linked media: crossfade + drift across the photo sequence
+      const n = layers.length;
+      const pos = p * (n - 1);
+      let active = Math.round(pos);
+      layers.forEach((el, i) => {
+        const d = pos - i;
+        const o = clamp(1 - Math.abs(d) * 1.25);
+        el.style.opacity = o.toFixed(3);
+        el.style.transform = "scale(" + (1.03 + Math.abs(d) * 0.05).toFixed(3) + ") translate3d(0," + (d * -22).toFixed(1) + "px,0)";
+      });
+      active = Math.max(0, Math.min(n - 1, active));
+
+      if (ch) ch.textContent = "CH 0" + (active + 1);
+      if (capOut) {
+        const cap = layers[active].dataset.cap;
+        if (capOut.textContent !== cap) capOut.textContent = cap;
+      }
+      if (tc) {
+        const secs = p * 96;
+        tc.textContent = "00:" + pad(secs / 60, 2) + ":" + pad(secs % 60, 2) + ":" + pad((secs * 24) % 24, 2);
+      }
+      if (reticle && !still) {
+        reticle.style.transform = "translate3d(" + (Math.sin(p * 9) * 60).toFixed(1) + "px," + (Math.cos(p * 7) * 40).toFixed(1) + "px,0) scale(" + (1 + Math.sin(p * 12) * 0.12).toFixed(3) + ")";
+      }
+      if (heroFade && !still) {
+        const h = clamp(window.scrollY / (window.innerHeight * 0.85));
+        heroFade.style.opacity = String(1 - h * 0.95);
+        heroFade.style.transform = "translate3d(0," + (-h * 40).toFixed(1) + "px,0)";
+      }
+
+      const pi = Math.floor(now / 3200) % PLATES.length;
+      if (pi !== this.lastPlate && plate) {
+        this.lastPlate = pi;
+        const r = PLATES[pi];
+        plate.textContent = r.p; conf.textContent = r.c; veh.textContent = r.v;
+        status.textContent = r.s; status.style.color = r.col;
+        const t0 = new Date(Date.now() - pi * 61000);
+        logged.textContent = pad(t0.getHours(), 2) + ":" + pad(t0.getMinutes(), 2) + ":" + pad(t0.getSeconds(), 2);
+      }
+
+      this.raf = requestAnimationFrame(frame);
+    };
+    this.raf = requestAnimationFrame(frame);
+  }
+
+  componentDidUpdate() {
+    this.applyTweaks();
+    if (!this.beat || performance.now() - this.beat > 400) this.start();
+  }
+
+  applyTweaks() {
+    document.documentElement.style.setProperty("--accent", this.props.accentColor ?? "#FF5A1F");
+    const hud = document.querySelector("[data-hud]");
+    if (hud) hud.style.display = this.props.showHud === false ? "none" : "";
+  }
+
+  componentWillUnmount() {
+    // A hot-reload remount fires this while the DOM is still live — only tear
+    // the loop down when the page is really gone.
+    if (document.querySelector("[data-media]")) return;
+    if (this.raf) cancelAnimationFrame(this.raf);
+    if (this.watchdog) clearInterval(this.watchdog);
+    if (this.onWheel) window.removeEventListener("wheel", this.onWheel);
+    if (this.io) this.io.disconnect();
+    if (this.fs) clearTimeout(this.fs);
+  }
+}
+
+</script>
+</body>
+</html>
