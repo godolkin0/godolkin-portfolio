@@ -37,6 +37,27 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Mount-triggered twin of the scroll reveal, for content that is already on
+   screen at first paint (see src/components/Reveal.jsx).
+   It animates TRANSFORM ONLY, never opacity, and that is the whole point: a
+   document timeline can be frozen (hidden tab, throttled render, prerender) and
+   a `both`-filled animation will then hold its from-state forever. Holding a
+   24px offset is invisible to the reader; holding opacity 0 is a blank hero.
+   Legibility is never animated here — only motion is.
+   Uses `transform`, which is a distinct property from the `translate` that
+   Tailwind's translate-y-* utilities set, so the two never fight. */
+@keyframes reveal-up {
+  from {
+    transform: translateY(0.75rem);
+  }
+  to {
+    transform: none;
+  }
+}
+.reveal-on-mount {
+  animation: reveal-up 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 /* Neutralize decorative motion for users who ask for it. The pipeline's tiny
    processing spinner is exempt: it's small, contained, and conveys state. */
 @media (prefers-reduced-motion: reduce) {
@@ -53,6 +74,11 @@ body {
   .animate-spin {
     animation-duration: 1s !important;
     animation-iteration-count: infinite !important;
+  }
+  /* Drop the mount reveal entirely rather than racing it to zero: the element's
+     own classes already render it fully opaque. */
+  .reveal-on-mount {
+    animation: none !important;
   }
 }
 
