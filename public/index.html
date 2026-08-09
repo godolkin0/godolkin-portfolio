@@ -906,15 +906,51 @@ class Component extends DCLogic {
       const off = document.createElement("canvas");
       off.width = canvas.width; off.height = canvas.height;
       const octx = off.getContext("2d");
-      const count = Math.round((w * h) / 2400);
-      for (let i = 0; i < count; i++) {
-        const x = Math.random() * off.width, y = Math.random() * off.height;
-        const r = (Math.random() < 0.9 ? 0.5 + Math.random() * 0.7 : 1.1 + Math.random() * 0.9) * dpr;
-        const a = 0.14 + Math.random() * 0.62;
-        octx.beginPath();
-        octx.fillStyle = Math.random() < 0.18 ? "rgba(216,230,247," + a + ")" : "rgba(150,176,206," + a * 0.8 + ")";
-        octx.arc(x, y, r, 0, Math.PI * 2);
-        octx.fill();
+      const W = off.width, H = off.height, mx = W / 2, my = H / 2;
+      const tilt = -0.16;
+      const ax = Math.cos(tilt), ay = Math.sin(tilt);
+      const px = -Math.sin(tilt), py = Math.cos(tilt);
+      const spread = H * 0.17, span = Math.hypot(W, H);
+      const gauss = () => Math.sqrt(-2 * Math.log(1 - Math.random())) * Math.cos(2 * Math.PI * Math.random());
+      const dot = (x, y, r, fill) => { octx.beginPath(); octx.fillStyle = fill; octx.arc(x, y, r, 0, Math.PI * 2); octx.fill(); };
+      const glow = (x, y, rad, inner) => { const g = octx.createRadialGradient(x, y, 0, x, y, rad); g.addColorStop(0, inner); g.addColorStop(1, inner.replace(/[\d.]+\)$/, "0)")); octx.fillStyle = g; octx.fillRect(x - rad, y - rad, rad * 2, rad * 2); };
+      const haze = octx.createLinearGradient(mx - px * spread * 3.4, my - py * spread * 3.4, mx + px * spread * 3.4, my + py * spread * 3.4);
+      haze.addColorStop(0, "rgba(84,116,158,0)");
+      haze.addColorStop(0.32, "rgba(84,116,158,0.055)");
+      haze.addColorStop(0.5, "rgba(150,176,206,0.10)");
+      haze.addColorStop(0.68, "rgba(84,116,158,0.055)");
+      haze.addColorStop(1, "rgba(84,116,158,0)");
+      octx.fillStyle = haze;
+      octx.fillRect(0, 0, W, H);
+      for (let i = 0; i < 7; i++) {
+        const t = ((i + 0.5) / 7) * span - span / 2 + gauss() * span * 0.05;
+        glow(mx + ax * t + px * gauss() * spread * 0.5, my + ay * t + py * gauss() * spread * 0.5, spread * (0.7 + Math.random() * 0.9), "rgba(126,158,196,0.075)");
+      }
+      for (let i = 0; i < 5; i++) {
+        const t = (i / 4) * span - span / 2;
+        glow(mx + ax * t + px * gauss() * spread * 0.12, my + ay * t + py * gauss() * spread * 0.12, spread * (0.5 + Math.random() * 0.4), "rgba(5,7,11,0.5)");
+      }
+      const star = (x, y, bias) => {
+        if (x < 0 || x > W || y < 0 || y > H) return;
+        const r = (Math.random() < 0.08 ? 1.1 + Math.random() * 0.9 : 0.4 + Math.random() * 0.7) * dpr;
+        const a = Math.min(0.95, (0.12 + Math.random() * 0.6) * bias);
+        const tone = Math.random();
+        const fill = tone < 0.16 ? "rgba(228,236,245," + a + ")" : tone < 0.22 ? "rgba(255,168,72," + a * 0.75 + ")" : tone < 0.5 ? "rgba(200,218,240," + a * 0.85 + ")" : "rgba(150,176,206," + a * 0.8 + ")";
+        dot(x, y, r, fill);
+      };
+      const scattered = Math.round((w * h) / 2100);
+      for (let i = 0; i < scattered; i++) star(Math.random() * W, Math.random() * H, 0.85);
+      const banded = Math.round((w * h) / 900);
+      for (let i = 0; i < banded; i++) {
+        const t = (Math.random() - 0.5) * span * 1.15, perp = gauss() * spread;
+        star(mx + ax * t + px * perp, my + ay * t + py * perp, 1.05);
+      }
+      for (let i = 0; i < 14; i++) {
+        const t = (Math.random() - 0.5) * span;
+        const x = mx + ax * t + px * gauss() * spread * 1.5, y = my + ay * t + py * gauss() * spread * 1.5;
+        if (x < 0 || x > W || y < 0 || y > H) continue;
+        glow(x, y, (5 + Math.random() * 9) * dpr, "rgba(216,230,247,0.30)");
+        dot(x, y, (0.9 + Math.random() * 0.7) * dpr, "rgba(232,240,250,0.92)");
       }
       this.off = off; this.dpr = dpr;
     };

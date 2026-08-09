@@ -2,64 +2,53 @@
 
 Single-page portfolio for Godolkin with three interactive automation demos. Fully static: every demo runs client-side on real logic with bundled historical data — no backend, no API keys, nothing to abuse. Bilingual (EN/IT) via the language toggle in the header.
 
-## Stack
+Live at [godolkin.dev](https://godolkin.dev).
 
-Vite + React + Tailwind CSS v4. The demo logic lives in dependency-free modules under `src/lib/` (the Polymarket demo is a faithful JS port of the real bot's `weather.py`/`edge.py` math), scenario data under `src/data/`, all user-facing copy in `src/i18n.jsx`, and personal/deploy facts (domain, repo URL, Telegram, timezone…) in `src/config.js` — fill in the `TODO(blenard)` values there as they become real.
+## What this repo is
 
-## Local dev
+There is **no build step**. The site is a finished Claude Design export — two files — served exactly as they are:
+
+| Path | What it is |
+|------|------------|
+| `public/index.html` | the whole page: markup, inline styles, and one inline script holding the demo logic and the star field |
+| `public/support.js` | the Claude Design runtime the page loads |
+| `public/techtron/`, `public/techtron2/` | the two Tech-Tron client mockups, served at `/techtron` and `/techtron2` |
+| `public/og.png`, `public/favicon*`, `public/apple-touch-icon.png` | branded assets, regenerated with `npm run assets` |
+
+`vercel.json` turns the build off entirely (`framework: null`, echo-only install and build commands) and points Vercel at `public/` as the output directory. Push to `main` and Vercel publishes that folder as-is.
+
+Before v2.0 this was a Vite + React + Tailwind app under `src/`. It was removed on 2026-08-10 when the export replaced it — recover it from git history if you ever need it.
+
+## Updating the site
+
+When a new export comes out of Claude Design:
+
+1. Copy its `index.html` and `support.js` into `public/`, overwriting.
+2. In `index.html`, change `src="./support.js"` to `src="/support.js"`.
+3. Check the page for the personal name — exports keep reintroducing it. The site carries the Godolkin brand only.
+4. Commit and push to `main`.
+
+**Edits made directly to `public/index.html` are lost on the next export.** Make lasting changes in the Claude Design source, then re-export.
+
+## Local commands
 
 ```bash
-npm install
-npm run dev        # dev server
-npm run verify     # sanity-check the demo logic (scenario outcomes, triage rules, report math)
-npm run build      # production build → dist/
-npm run preview    # serve the production build locally
 npm run assets     # regenerate public/og.png + favicons (Windows-only, uses System.Drawing)
 ```
 
-## Deploy (free)
+There is nothing to install and nothing to build. To view the site locally, serve the `public/` folder with any static server — opening the file directly will not work, because the page loads `/support.js` from the site root.
 
-No environment variables are needed anywhere. Pick one platform:
+## Deploy
 
-### Option A — Vercel
+Continuous: every push to `main` deploys via the Vercel project connected to this repo. No environment variables are needed.
 
-One-off deploy from the project root (log in when prompted):
-
-```bash
-npx vercel --prod
-```
-
-Vercel auto-detects Vite (build `npm run build`, output `dist`). For continuous deploys instead, push the project to a GitHub repo and import it at vercel.com/new — every push then deploys automatically.
-
-**Custom domain:** Project → Settings → Domains → add your domain. The dashboard shows the exact DNS records to create at your registrar; the standard values are:
+**Custom domain:** Project → Settings → Domains. The dashboard shows the exact DNS records; the standard values are:
 
 | Host | Type  | Value                  |
 |------|-------|------------------------|
 | `@`  | A     | `76.76.21.21`          |
 | `www`| CNAME | `cname.vercel-dns.com` |
 
-### Option B — Netlify
+## Analytics
 
-`netlify.toml` is already in the repo (build `npm run build`, publish `dist`). One-off deploy:
-
-```bash
-npx netlify-cli deploy --prod --build
-```
-
-Or connect the GitHub repo at app.netlify.com for continuous deploys.
-
-**Custom domain:** Site configuration → Domain management → add your domain. Easiest is switching nameservers to Netlify DNS (the UI walks you through it); otherwise create an `A` record for `@` → `75.2.60.5` and a `CNAME` for `www` → `<your-site>.netlify.app` (the dashboard shows your exact values).
-
-## After the first deploy (important)
-
-1. Open `index.html` and replace every `https://godolkin.example` placeholder (canonical, `og:url`, `og:image`, `twitter:image`) with the real URL — link previews in Slack/WhatsApp/LinkedIn won't show the branded card until you do. Redeploy.
-2. Test the unfurl with a validator (e.g. opengraph.xyz or the LinkedIn Post Inspector).
-3. Fill in `src/config.js`: bot repo URL and/or demo video (this reveals the "See the real code" / "Watch it run" buttons), Telegram handle, booking link, confirmed timezone.
-
-## Analytics (optional, cookieless)
-
-Two ready-to-uncomment snippets sit in `index.html`:
-
-- **Plausible** (paid, privacy-first): uncomment the snippet and set `data-domain` to your domain.
-- **Vercel Web Analytics** (free tier): enable it for the project in the Vercel dashboard (Analytics tab), then uncomment the `/_vercel/insights/script.js` snippet.
-- On Netlify, **Netlify Analytics** is a paid, server-side add-on — no code change needed, just enable it in the dashboard if you want it.
+The page currently ships **no analytics** — the React app's `@vercel/analytics` went with it. To add Vercel Web Analytics, enable it for the project in the dashboard and add `<script defer src="/_vercel/insights/script.js"></script>` before `</body>` in `public/index.html` (and re-add it after every export).
