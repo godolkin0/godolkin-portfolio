@@ -2,6 +2,7 @@
 // Asserts each bundled scenario resolves to the outcome the copy promises,
 // and spot-checks the triage and report math in both languages.
 
+import { readFileSync } from "node:fs";
 import { SCENARIOS } from "../src/data/scenarios.js";
 import { analyzeScenario } from "../src/lib/polymarket.js";
 import { classifyLead, EXAMPLE_LEADS } from "../src/lib/triage.js";
@@ -95,6 +96,33 @@ for (const p of PROJECTS) {
   // Private builds must not carry a URL, live ones must have one.
   check(`${p.id} url shape`, p.url === null || typeof p.url === "string", true);
 }
+
+// Guards the fix for the invisible hero. Anything on screen at first paint must
+// reach full opacity without waiting on an IntersectionObserver, a transition,
+// or a running document timeline — a hidden or throttled tab advances none of
+// them, which once left the hero stranded at opacity 0. Source-level assertions
+// because the failure lives in CSS/DOM plumbing, not in a pure function.
+console.log("\n— Reveal: above-the-fold legibility —");
+const revealSrc = readFileSync(new URL("../src/components/Reveal.jsx", import.meta.url), "utf8");
+const cssSrc = readFileSync(new URL("../src/index.css", import.meta.url), "utf8");
+
+// The component must measure the viewport on mount and route on-screen elements
+// away from the observer.
+check("Reveal measures the viewport on mount", /getBoundingClientRect\(\)/.test(revealSrc), true);
+check("Reveal routes on-screen elements to mount mode", /onScreenAtLoad[\s\S]{0,120}setState\("mount"\)/.test(revealSrc), true);
+
+// The mount branch must render opaque with no transition of its own.
+const mountBranch = revealSrc.match(/if \(state === "mount"\) \{[\s\S]*?\n  \}/)?.[0] ?? "";
+check("mount branch exists", mountBranch.length > 0, true);
+check("mount branch renders fully opaque", mountBranch.includes("opacity-100"), true);
+check("mount branch has no transition", /transition/.test(mountBranch), false);
+check("mount branch has no stagger delay", /transitionDelay|animationDelay/.test(mountBranch), false);
+
+// The mount animation may move the element but must never touch its opacity:
+// a frozen timeline holds a filled animation at its from-state forever.
+const keyframes = cssSrc.match(/@keyframes reveal-up \{[\s\S]*?\n\}/)?.[0] ?? "";
+check("reveal-up keyframes exist", keyframes.length > 0, true);
+check("reveal-up never animates opacity", /opacity/.test(keyframes), false);
 
 console.log(failures === 0 ? "\nAll checks passed." : `\n${failures} CHECK(S) FAILED`);
 process.exit(failures === 0 ? 0 : 1);
