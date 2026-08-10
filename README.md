@@ -33,10 +33,11 @@ When a new export comes out of Claude Design:
 ## Local commands
 
 ```bash
+npm run dev        # serve public/ at http://localhost:5173
 npm run assets     # regenerate public/og.png + favicons (Windows-only, uses System.Drawing)
 ```
 
-There is nothing to install and nothing to build. To view the site locally, serve the `public/` folder with any static server — opening the file directly will not work, because the page loads `/support.js` from the site root.
+There is nothing to install and nothing to build — `npm run dev` is a dependency-free Node static server (`scripts/dev-server.mjs`). Opening `public/index.html` as a file will not work, because the page loads `/support.js` from the site root.
 
 ## Deploy
 
