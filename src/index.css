@@ -1,0 +1,212 @@
+@import "tailwindcss";
+
+/* Self-hosted so the page makes no third-party request and the fonts are in the
+   critical path as local assets. Outfit carries the display voice, Work Sans the
+   body. Both variable, so every weight in the scale costs one file. */
+@import "@fontsource-variable/outfit";
+@import "@fontsource-variable/work-sans";
+
+/* ---------------------------------------------------------------------------
+   Tokens
+   Measured palette. The page is light. Orange is a mark, not a colour scheme:
+   one accent element per viewport is the target, two is the ceiling.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-bg: #ffffff;
+  --color-wash: #eef0f2;
+  --color-ink: #101820;
+  --color-muted: #8a8f8d;
+  --color-dark: #131313;
+  --color-line: #c4c9cd;
+  --color-accent: #ff6a1f;
+
+  --font-display: "Outfit Variable", "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Work Sans Variable", "Work Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------------------------------------------------------------------------
+   Type scale
+   Ratios matter more than the pixel values: display is set noticeably tight
+   (~0.85 leading at the large end), body is roomy, labels are small and wide.
+--------------------------------------------------------------------------- */
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2rem, 1.2rem + 3.4vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.t-display-lg {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.5rem, 1.3rem + 5vw, 5.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+}
+
+/* The signature: one heading, two voices. The second line drops to the light
+   weight or the muted colour so the emphasis sits inside the sentence. */
+.t-display-soft {
+  font-weight: 300;
+  color: var(--color-muted);
+}
+
+.t-body {
+  font-size: clamp(1rem, 0.94rem + 0.28vw, 1.1875rem);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.t-secondary {
+  font-size: 0.9375rem;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--color-muted);
+}
+
+.t-label {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+}
+
+/* ---------------------------------------------------------------------------
+   Depth: static wash layers
+   The entire "expensive" quality of the reference is this and nothing else.
+   Large, very soft radial washes composited over white: no hard edges, no
+   colour beyond grey, never symmetric.
+
+   On opacity: the brief specifies the wash at 6-8%, but #EEF0F2 is itself only
+   ~4% away from #FFFFFF, so at 8% alpha it resolves to about #FEFEFE and is
+   invisible on any real display. The washes are therefore drawn at high alpha
+   and the SHAPE does the fading: full wash at the centre of each blob, zero at
+   its edge, which tops out at a ~4% darkening. That is the subtle-but-present
+   effect the reference actually has.
+--------------------------------------------------------------------------- */
+.wash {
+  position: relative;
+  isolation: isolate;
+}
+
+.wash::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(52% 46% at 18% 22%, rgb(238 240 242 / 0.95) 0%, rgb(238 240 242 / 0) 100%),
+    radial-gradient(46% 52% at 82% 38%, rgb(238 240 242 / 0.85) 0%, rgb(238 240 242 / 0) 100%),
+    radial-gradient(58% 44% at 62% 88%, rgb(238 240 242 / 0.9) 0%, rgb(238 240 242 / 0) 100%),
+    radial-gradient(40% 40% at 34% 68%, rgb(238 240 242 / 0.7) 0%, rgb(238 240 242 / 0) 100%);
+}
+
+/* Offset variant so consecutive sections never repeat the same blob positions.
+   Symmetry is what makes a wash read as a gradient instead of as atmosphere. */
+.wash-b::before {
+  background:
+    radial-gradient(50% 48% at 74% 16%, rgb(238 240 242 / 0.9) 0%, rgb(238 240 242 / 0) 100%),
+    radial-gradient(44% 50% at 12% 54%, rgb(238 240 242 / 0.8) 0%, rgb(238 240 242 / 0) 100%),
+    radial-gradient(56% 42% at 46% 94%, rgb(238 240 242 / 0.85) 0%, rgb(238 240 242 / 0) 100%);
+}
+
+/* 1-2% monochrome grain over the top. Its only job is to break up the banding
+   the gradients would otherwise show on 8-bit panels. Inline SVG turbulence:
+   no network request, no raster asset to ship. */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* ---------------------------------------------------------------------------
+   Reveal
+   Mount-triggered twin of the scroll reveal, for content that is already on
+   screen at first paint (see src/components/Reveal.jsx).
+   It animates TRANSFORM ONLY, never opacity, and that is the whole point: a
+   document timeline can be frozen (hidden tab, throttled render, prerender) and
+   a `both`-filled animation will then hold its from-state forever. Holding a
+   12px offset is invisible to the reader; holding opacity 0 is a blank hero.
+   Legibility is never animated here, only motion is.
+   Uses `transform`, which is a distinct property from the `translate` that
+   Tailwind's translate-y-* utilities set, so the two never fight.
+--------------------------------------------------------------------------- */
+@keyframes reveal-up {
+  from {
+    transform: translateY(0.75rem);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.reveal-on-mount {
+  animation: reveal-up 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Drop the mount reveal entirely rather than racing it to zero: the element's
+     own classes already render it fully opaque. */
+  .reveal-on-mount {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Focus
+   Visible on every interactive element including the graph nodes, which are
+   real anchors and must show where the keyboard is.
+--------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
