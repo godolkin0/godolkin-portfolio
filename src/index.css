@@ -15,7 +15,14 @@
   --color-bg: #ffffff;
   --color-wash: #eef0f2;
   --color-ink: #101820;
-  --color-muted: #8a8f8d;
+  /* The reference's secondary grey is #8A8F8D. Measured, it lands at 3.28:1 on
+     white and 2.87:1 over the deepest wash, so every lede, caption and label on
+     the page would have failed the 4.5:1 floor this build is held to. Darkened
+     to the lightest grey that still clears it in the worst case: 5.34:1 on
+     white, 4.68:1 over full wash. The register is unchanged; it is simply
+     legible now. --line keeps the original lightness because it only ever draws
+     hairlines and dots, never type. */
+  --color-muted: #676c6a;
   --color-dark: #131313;
   --color-line: #c4c9cd;
   --color-accent: #ff6a1f;

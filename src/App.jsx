@@ -1,18 +1,11 @@
 import { LanguageProvider, useI18n } from "./i18n.jsx";
 import { BookCallButton, SiteHeader } from "./components/ui.jsx";
 import { Hero } from "./components/Hero.jsx";
-
-// Sections below the hero land in the next pass. Their anchors exist now so the
-// nav and the graph's click-to-dive both have somewhere real to go.
-function Placeholder({ id, title }) {
-  return (
-    <section id={id} className="wash wash-b grain relative border-t border-[var(--color-line)]/40">
-      <div className="mx-auto max-w-6xl px-5 py-24 sm:px-10">
-        <p className="t-label text-[var(--color-muted)]">{title}</p>
-      </div>
-    </section>
-  );
-}
+import { HowIWork } from "./components/HowIWork.jsx";
+import { LiveSystems } from "./components/LiveSystems.jsx";
+import { About } from "./components/About.jsx";
+import { BookCall } from "./components/BookCall.jsx";
+import { Footer } from "./components/Footer.jsx";
 
 function Page() {
   const { t } = useI18n();
@@ -27,11 +20,12 @@ function Page() {
       <SiteHeader />
       <main>
         <Hero />
-        <Placeholder id="how-i-work" title={t.nav.howIWork} />
-        <Placeholder id="live-systems" title={t.nav.liveSystems} />
-        <Placeholder id="about" title={t.nav.about} />
-        <Placeholder id="book" title={t.nav.bookACall} />
+        <HowIWork />
+        <LiveSystems />
+        <About />
+        <BookCall />
       </main>
+      <Footer />
       <BookCallButton />
     </>
   );

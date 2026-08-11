@@ -8,6 +8,7 @@ import { analyzeScenario } from "../src/lib/polymarket.js";
 import { classifyLead, EXAMPLE_LEADS } from "../src/lib/triage.js";
 import { buildReport, SAMPLE_WEEKS } from "../src/lib/report.js";
 import { CAPABILITIES, LINKS, NODES, STAGES, SYSTEMS, SYSTEM_CAPABILITIES } from "../src/data/graph.js";
+import { STRINGS } from "../src/copy.js";
 
 let failures = 0;
 function check(name, actual, expected) {
@@ -150,6 +151,57 @@ const graphText = [
   ...CAPABILITIES.flatMap((c) => [c.label.en, c.label.it]),
 ];
 check("graph labels free of em-dashes", graphText.some((t) => t.includes("—")), false);
+
+// Full EN/IT parity, asserted rather than assumed. A missing Italian key does
+// not throw at runtime, it renders `undefined` or silently falls back to
+// English, which is exactly the kind of half-translated page the brief rules
+// out. Comparing the two key trees is the only way to catch it before a
+// visitor does.
+console.log("\n— Copy: EN/IT parity —");
+const keyTree = (obj, prefix = "") =>
+  Object.entries(obj).flatMap(([k, v]) => {
+    const path = prefix ? `${prefix}.${k}` : k;
+    if (Array.isArray(v)) {
+      // Arrays must match in length too: four principles in one language and
+      // three in the other is the same bug wearing a different hat.
+      return [
+        `${path}[]:${v.length}`,
+        ...v.flatMap((item, i) =>
+          item && typeof item === "object" ? keyTree(item, `${path}[${i}]`) : []
+        ),
+      ];
+    }
+    if (v && typeof v === "object") return keyTree(v, path);
+    return [`${path}:${typeof v}`];
+  });
+
+const enKeys = keyTree(STRINGS.en).sort();
+const itKeys = keyTree(STRINGS.it).sort();
+const missingInIt = enKeys.filter((k) => !itKeys.includes(k));
+const missingInEn = itKeys.filter((k) => !enKeys.includes(k));
+check("no English key missing from Italian", missingInIt.join(", ") || "none", "none");
+check("no Italian key missing from English", missingInEn.join(", ") || "none", "none");
+
+// The no-em-dash house rule, over every string in both languages.
+const walkStrings = (obj) =>
+  Object.values(obj).flatMap((v) =>
+    typeof v === "string" ? [v] : v && typeof v === "object" ? walkStrings(v) : []
+  );
+const allCopy = [...walkStrings(STRINGS.en), ...walkStrings(STRINGS.it)];
+const dashed = allCopy.filter((s) => s.includes("—"));
+check("copy is free of em-dashes", dashed.slice(0, 3).join(" | ") || "none", "none");
+check("copy has no empty strings", allCopy.filter((s) => s.trim() === "").length, 0);
+
+// Every system in the graph needs a card, in both languages, or the Live
+// systems section renders a heading with nothing under it.
+for (const s of SYSTEMS) {
+  check(`${s.id} has an EN card`, !!STRINGS.en.systems.cards[s.id]?.body, true);
+  check(`${s.id} has an IT card`, !!STRINGS.it.systems.cards[s.id]?.body, true);
+}
+// And every badge in use must have a label in both languages.
+for (const badge of new Set(SYSTEMS.map((s) => s.badge))) {
+  check(`badge ${badge} is labelled EN+IT`, !!(STRINGS.en.systems.badges[badge] && STRINGS.it.systems.badges[badge]), true);
+}
 
 // Guards the fix for the invisible hero. Anything on screen at first paint must
 // reach full opacity without waiting on an IntersectionObserver, a transition,

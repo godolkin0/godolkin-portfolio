@@ -88,9 +88,13 @@ export function SiteHeader() {
     { href: "#about", label: t.nav.about },
   ];
 
+  // On phones the graph drops to its simplified form and stops being a way to
+  // get around, so the conventional nav is the only navigation there is. It
+  // moves to its own row rather than disappearing: hiding it left a 360px
+  // visitor with a wordmark, a language toggle and no way to reach anything.
   return (
     <header className="fixed inset-x-0 top-0 z-40">
-      <div className="flex items-center justify-between px-5 py-5 sm:px-10 sm:py-7">
+      <div className="flex items-center justify-between px-5 pt-5 sm:px-10 sm:py-7">
         <a href="#top" className="t-label font-medium tracking-[0.3em] text-[var(--color-ink)]">
           GODOLKIN
         </a>
@@ -107,6 +111,14 @@ export function SiteHeader() {
           <LanguageToggle />
         </nav>
       </div>
+
+      <nav className="flex items-center gap-4 px-5 pt-3 pb-1 sm:hidden" aria-label="Sections">
+        {links.map((link) => (
+          <a key={link.href} href={link.href} className="t-label text-[var(--color-muted)]">
+            {link.label}
+          </a>
+        ))}
+      </nav>
     </header>
   );
 }
