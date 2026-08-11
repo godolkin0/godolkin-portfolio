@@ -143,7 +143,7 @@ export function PracticeGraph({ lang = "en", isMobile = false, className = "", o
       // settles round by default; a hero is wide. Squeezing the field flat is
       // what makes the graph read as a landscape rather than a ball in the
       // middle of the screen, and it costs nothing structurally.
-      .force("shapeY", forceY(view.h / 2).strength(isMobile ? 0.02 : 0.09))
+      .force("shapeY", forceY(view.h / 2).strength(isMobile ? 0.02 : 0.19))
       .alphaDecay(ALPHA_DECAY);
 
     simRef.current = sim;

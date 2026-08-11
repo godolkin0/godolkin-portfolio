@@ -55,20 +55,26 @@ body {
    Ratios matter more than the pixel values: display is set noticeably tight
    (~0.85 leading at the large end), body is roomy, labels are small and wide.
 --------------------------------------------------------------------------- */
+/* Display tops out at 48px, which is the measured value, not a guess. The ratio
+   that matters is display : body : secondary : label = 48 : 19 : 15 : 12, and
+   the leading is the other half of the character: headlines are set noticeably
+   tight, near 0.85x, so a two-line heading reads as one block of type rather
+   than two separate sentences. */
 .t-display {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(2rem, 1.2rem + 3.4vw, 4rem);
-  line-height: 0.95;
+  font-size: clamp(1.9rem, 1.35rem + 1.7vw, 3rem);
+  line-height: 0.86;
   letter-spacing: -0.02em;
 }
 
-.t-display-lg {
+/* Card and sub-section titles. Same voice, one step down. */
+.t-display-sm {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(2.5rem, 1.3rem + 5vw, 5.5rem);
-  line-height: 0.88;
-  letter-spacing: -0.03em;
+  font-size: clamp(1.4rem, 1.2rem + 0.7vw, 1.85rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
 }
 
 /* The signature: one heading, two voices. The second line drops to the light
