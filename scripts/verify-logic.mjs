@@ -327,7 +327,12 @@ check(
 // on a positive sighting, so an observer that never fires leaves the button
 // there rather than removing the one thing the page is for.
 const uiSrc = readFileSync(new URL("../src/components/ui.jsx", import.meta.url), "utf8");
-check("CTA defaults to visible", /useState\(false\)[\s\S]{0,400}setOverBooking\(entry\.isIntersecting\)/.test(uiSrc), true);
+// Scoped to the function rather than matched by proximity: a comment explaining
+// the invariant should never be what breaks the check that enforces it.
+const ctaFn = uiSrc.match(/export function BookCallButton\(\)[\s\S]*?\n\}/)?.[0] ?? "";
+check("CTA component found", ctaFn.length > 0, true);
+check("CTA state starts false (visible)", /const \[overBooking, setOverBooking\] = useState\(false\)/.test(ctaFn), true);
+check("CTA hides only on a positive sighting", /setOverBooking\(entry\.isIntersecting\)/.test(ctaFn), true);
 check("CTA is not removed from the DOM when hidden", /overBooking \?[\s\S]{0,60}opacity-0/.test(uiSrc), true);
 
 console.log(failures === 0 ? "\nAll checks passed." : `\n${failures} CHECK(S) FAILED`);
