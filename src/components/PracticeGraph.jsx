@@ -8,7 +8,7 @@ import {
   forceX,
   forceY,
 } from "d3-force";
-import { LINKS, NEIGHBOURS, NODES, mobileGraph, radiusOf } from "../data/graph.js";
+import { LINKS, NODES, mobileGraph, radiusOf } from "../data/graph.js";
 
 // The practice as a force-directed graph, in the visual language of a knowledge
 // graph rather than a chart. It is both an explanation of how the work fits
@@ -35,6 +35,9 @@ const SETTLE_TICKS = 320;
 // across container widths by dividing the view scale back out.
 const LABEL_PX = 13;
 const EDGE_PX = 0.9;
+// Per-tick impulse behind the drift. Small enough that a node never travels far
+// from where the physics put it, large enough to be visible as movement.
+const DRIFT_PUSH = 0.055;
 
 export function PracticeGraph({ lang = "en", isMobile = false, className = "", onActiveChange }) {
   const view = isMobile ? MOBILE_VIEW : DESKTOP_VIEW;
@@ -188,6 +191,26 @@ export function PracticeGraph({ lang = "en", isMobile = false, className = "", o
     // Gentle drift from the settled layout. Re-heating to full alpha here would
     // throw away the solved positions and make the page look like it is still
     // computing, which is the exact impression this site cannot afford to give.
+    //
+    // A low alphaTarget alone does NOT produce drift, which is the trap: the
+    // layout has already been ticked to equilibrium, so the net force on every
+    // node is about zero and the simulation runs forever moving nothing. It
+    // needs something to push against. This adds a tiny wandering impulse per
+    // node, each on its own phase, which the link and charge forces immediately
+    // pull back. The result is a bounded sway of a few units around the settled
+    // position: the graph breathes instead of sitting there like an image.
+    let clock = 0;
+    sim.force("breathe", () => {
+      clock += 0.01;
+      for (let i = 0; i < nodes.length; i += 1) {
+        const node = nodes[i];
+        if (node.fx != null) continue; // being dragged: leave it alone
+        const phase = i * 1.7;
+        node.vx += Math.cos(clock + phase) * DRIFT_PUSH;
+        node.vy += Math.sin(clock * 0.8 + phase) * DRIFT_PUSH;
+      }
+    });
+
     sim.on("tick", paint);
     sim.alpha(DRIFT_ALPHA).alphaTarget(DRIFT_ALPHA).restart();
 
@@ -270,12 +293,28 @@ export function PracticeGraph({ lang = "en", isMobile = false, className = "", o
   }, [reduced]);
 
   // --- highlight -------------------------------------------------------------
+  // Adjacency for the graph ACTUALLY on screen. Reading the module-level
+  // NEIGHBOURS here was wrong on mobile: that map is built from the desktop
+  // edges, where a system reaches a stage only through a capability. With the
+  // capability tier dropped, systems link straight to stages, so highlighting
+  // resolved against edges that were not rendered and lit almost nothing.
+  const neighbours = useMemo(() => {
+    const map = new Map(nodes.map((n) => [n.id, new Set()]));
+    for (const l of links) {
+      const s = endpointId(l.source);
+      const t = endpointId(l.target);
+      map.get(s)?.add(t);
+      map.get(t)?.add(s);
+    }
+    return map;
+  }, [nodes, links]);
+
   const lit = useMemo(() => {
     if (!active) return null;
     const set = new Set([active]);
-    for (const id of NEIGHBOURS.get(active) ?? []) set.add(id);
+    for (const id of neighbours.get(active) ?? []) set.add(id);
     return set;
-  }, [active]);
+  }, [active, neighbours]);
 
   const setActiveNode = useCallback(
     (id) => {
@@ -348,10 +387,24 @@ export function PracticeGraph({ lang = "en", isMobile = false, className = "", o
     event?.currentTarget?.releasePointerCapture?.(event.pointerId);
   }, []);
 
-  // A drag that ends on a system node must not also follow its link.
-  const swallowClickAfterDrag = useCallback((event) => {
-    if (dragging.current?.moved) event.preventDefault();
-  }, []);
+  // A drag that ends on a system node must not also follow its link. On touch,
+  // the first tap does the job hover does on desktop (light the node and its
+  // neighbours, show their labels) and only the second tap follows the link.
+  // Navigating on the first tap meant the orange state was unreachable on a
+  // phone for the six nodes anyone would actually press.
+  const onSystemClick = useCallback(
+    (event, node) => {
+      if (dragging.current?.moved) {
+        event.preventDefault();
+        return;
+      }
+      if (isMobile && active !== node.id) {
+        event.preventDefault();
+        setActiveNode(node.id);
+      }
+    },
+    [isMobile, active, setActiveNode]
+  );
 
   return (
     <svg
@@ -428,7 +481,7 @@ export function PracticeGraph({ lang = "en", isMobile = false, className = "", o
                   aria-label={`${label} — ${badgeText(node.badge, lang)}`}
                   onFocus={() => setActiveNode(node.id)}
                   onBlur={() => setActiveNode(null)}
-                  onClick={swallowClickAfterDrag}
+                  onClick={(e) => onSystemClick(e, node)}
                   {...interaction}
                 >
                   {shape}

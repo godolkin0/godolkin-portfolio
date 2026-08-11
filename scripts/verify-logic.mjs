@@ -7,7 +7,7 @@ import { SCENARIOS } from "../src/data/scenarios.js";
 import { analyzeScenario } from "../src/lib/polymarket.js";
 import { classifyLead, EXAMPLE_LEADS } from "../src/lib/triage.js";
 import { buildReport, SAMPLE_WEEKS } from "../src/lib/report.js";
-import { CAPABILITIES, LINKS, NODES, STAGES, SYSTEMS, SYSTEM_CAPABILITIES } from "../src/data/graph.js";
+import { CAPABILITIES, LINKS, NODES, STAGES, SYSTEMS, SYSTEM_CAPABILITIES, mobileGraph } from "../src/data/graph.js";
 import { STRINGS } from "../src/copy.js";
 
 let failures = 0;
@@ -132,6 +132,29 @@ check("no self-links", LINKS.some((l) => l.source === l.target), false);
 check(
   "no orphan nodes",
   NODES.filter((n) => !LINKS.some((l) => l.source === n.id || l.target === n.id)).map((n) => n.id).join(",") || "none",
+  "none"
+);
+
+// The mobile graph is a different graph, not a filtered view of the desktop
+// one: capabilities are dropped and systems attach straight to stages. Its
+// edges therefore have to resolve against its own node set, and highlighting
+// has to be computed from those edges. Resolving against the desktop adjacency
+// lit almost nothing on a phone, which is how that shipped unnoticed.
+const mobile = mobileGraph();
+const mobileIds = new Set(mobile.nodes.map((n) => n.id));
+check("mobile graph drops the capability tier", mobile.nodes.some((n) => n.tier === "capability"), false);
+check("mobile graph keeps all six systems", mobile.nodes.filter((n) => n.tier === "system").length, 6);
+check(
+  "every mobile link resolves within the mobile node set",
+  mobile.links.every((l) => mobileIds.has(l.source) && mobileIds.has(l.target)),
+  true
+);
+check(
+  "no orphan nodes on mobile",
+  mobile.nodes
+    .filter((n) => !mobile.links.some((l) => l.source === n.id || l.target === n.id))
+    .map((n) => n.id)
+    .join(",") || "none",
   "none"
 );
 
