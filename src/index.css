@@ -184,6 +184,16 @@ body {
    Uses `transform`, which is a distinct property from the `translate` that
    Tailwind's translate-y-* utilities set, so the two never fight.
 --------------------------------------------------------------------------- */
+/* Room for the floating CTA at the very bottom of the page. Without it the
+   button permanently covers the last line of the footer on a phone: everywhere
+   else the content scrolls past underneath, but at the end of the document
+   there is nowhere left to scroll to. */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 5.5rem;
+  }
+}
+
 /* Edge hover transition. Deliberately a class rather than a style prop: the
    scroll build writes stroke-dashoffset inline, and React reconciling a style
    object on the same element would erase it mid-scrub. */

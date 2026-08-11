@@ -322,5 +322,13 @@ check(
   false
 );
 
+// The CTA stands down over the booking section so it stops covering the form.
+// Same invariant as everything else here: it defaults to PRESENT and only hides
+// on a positive sighting, so an observer that never fires leaves the button
+// there rather than removing the one thing the page is for.
+const uiSrc = readFileSync(new URL("../src/components/ui.jsx", import.meta.url), "utf8");
+check("CTA defaults to visible", /useState\(false\)[\s\S]{0,400}setOverBooking\(entry\.isIntersecting\)/.test(uiSrc), true);
+check("CTA is not removed from the DOM when hidden", /overBooking \?[\s\S]{0,60}opacity-0/.test(uiSrc), true);
+
 console.log(failures === 0 ? "\nAll checks passed." : `\n${failures} CHECK(S) FAILED`);
 process.exit(failures === 0 ? 0 : 1);

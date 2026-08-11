@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { SITE } from "../config.js";
 import { useI18n } from "../i18n.jsx";
 
@@ -53,9 +54,35 @@ export function Pill({ className = "", children }) {
 // is for.
 export function BookCallButton() {
   const { t } = useI18n();
+  const [overBooking, setOverBooking] = useState(false);
+
+  // Stand down once the booking section is on screen. A floating button sits on
+  // top of whatever is under it, and down there that was the contact form: it
+  // covered a text input on phones and an interest checkbox on desktop, so the
+  // shortcut to the form was blocking the form. It is also simply redundant
+  // there, since the thing it points at is already in view.
+  //
+  // Default is VISIBLE and it only ever hides on a positive sighting, so if the
+  // observer never runs the CTA is still there. The pinned sections are far
+  // above #book, so it stays present and clickable through every pin.
+  useEffect(() => {
+    const target = document.getElementById("book");
+    if (!target || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(([entry]) => setOverBooking(entry.isIntersecting), {
+      threshold: 0,
+    });
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="fixed right-4 bottom-4 z-50 sm:right-8 sm:bottom-8">
-      <PillButton href="#book" className="shadow-[0_8px_30px_rgb(16_24_32_/_0.16)]">
+    <div
+      className={`fixed right-4 bottom-4 z-50 transition-opacity duration-300 sm:right-8 sm:bottom-8 ${
+        overBooking ? "pointer-events-none opacity-0" : "opacity-100"
+      }`}
+      aria-hidden={overBooking}
+    >
+      <PillButton href="#book" tabIndex={overBooking ? -1 : undefined} className="shadow-[0_8px_30px_rgb(16_24_32_/_0.16)]">
         {t.nav.bookACall}
       </PillButton>
     </div>
