@@ -25,3 +25,13 @@ export function useMediaQuery(query) {
 // sections are disabled. One definition, used by both.
 export const MOBILE_QUERY = "(max-width: 767px)";
 export const NO_PIN_QUERY = "(max-width: 1023px)";
+export const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+// Whether this visitor gets pinned sections at all. Both conditions are live,
+// so crossing the breakpoint or flipping the OS setting re-renders into the
+// other layout rather than leaving a half-pinned page behind.
+export function usePinsEnabled() {
+  const tooNarrow = useMediaQuery(NO_PIN_QUERY);
+  const reduced = useMediaQuery(REDUCED_MOTION_QUERY);
+  return !tooNarrow && !reduced;
+}

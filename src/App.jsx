@@ -6,9 +6,13 @@ import { LiveSystems } from "./components/LiveSystems.jsx";
 import { About } from "./components/About.jsx";
 import { BookCall } from "./components/BookCall.jsx";
 import { Footer } from "./components/Footer.jsx";
+import { useScrollTriggerRefresh } from "./hooks/useScrollPin.js";
 
 function Page() {
   const { t } = useI18n();
+  // Pinned heights are measured from laid-out content, so late reflows (fonts,
+  // most of all) silently invalidate every pin and every anchor target.
+  useScrollTriggerRefresh();
   return (
     <>
       <a

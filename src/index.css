@@ -184,6 +184,13 @@ body {
    Uses `transform`, which is a distinct property from the `translate` that
    Tailwind's translate-y-* utilities set, so the two never fight.
 --------------------------------------------------------------------------- */
+/* Edge hover transition. Deliberately a class rather than a style prop: the
+   scroll build writes stroke-dashoffset inline, and React reconciling a style
+   object on the same element would erase it mid-scrub. */
+.graph-edge {
+  transition: stroke 150ms ease, opacity 150ms ease, stroke-width 150ms ease;
+}
+
 @keyframes reveal-up {
   from {
     transform: translateY(0.75rem);

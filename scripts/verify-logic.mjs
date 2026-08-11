@@ -265,5 +265,62 @@ check(
   true
 );
 
+// Scroll choreography. The line between pinning and hijacking is the whole
+// design: pinning holds a section while the visitor's own scroll drives a
+// timeline, hijacking takes the wheel away from them. These assert the second
+// one never creeps in, and that the escape hatches stay open.
+console.log("\n— Scroll: pinning, not hijacking —");
+const srcFiles = ["Hero.jsx", "HowIWork.jsx", "PracticeGraph.jsx", "ui.jsx", "About.jsx", "BookCall.jsx"].map((f) =>
+  readFileSync(new URL(`../src/components/${f}`, import.meta.url), "utf8")
+);
+const pinSrc = readFileSync(new URL("../src/hooks/useScrollPin.js", import.meta.url), "utf8");
+const appSrc = readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
+const allSrc = [...srcFiles, pinSrc, appSrc, cssSrc].join("\n");
+
+check("no wheel listener anywhere", /addEventListener\(\s*["']wheel/.test(allSrc), false);
+check("no touchmove listener anywhere", /addEventListener\(\s*["']touchmove/.test(allSrc), false);
+check("no preventDefault on wheel or touch", /(wheel|touch)[\s\S]{0,80}preventDefault/i.test(allSrc), false);
+// Matched as a declaration or a Tailwind utility, not as the word: the hook's
+// own comment says not to use scroll-snap, and a guard that trips on the
+// documentation forbidding the thing is a guard nobody will keep.
+check(
+  "no scroll-snap",
+  /scroll-snap-type\s*:/.test([...srcFiles, cssSrc].join("\n")) ||
+    /className=[^>]*\bsnap-(x|y|mandatory|start|center)\b/.test(srcFiles.join("\n")),
+  false
+);
+// ScrollSmoother and normalizeScroll both take over the scroller, which is
+// exactly the thing that must not happen.
+check("no ScrollSmoother", /ScrollSmoother/.test(allSrc), false);
+check("no normalizeScroll", /normalizeScroll/.test(allSrc), false);
+
+// Exactly two pinned sections. A third turns the page into a tunnel the buyer
+// has to escape before they can reach the one thing the page is for.
+// Counted in the components only. The hook's own signature destructures the
+// same shape and would otherwise read as a third pinned section forever.
+const pinCallSites = (srcFiles.join("\n").match(/useScrollPin\(\{/g) || []).length;
+check("exactly two pinned sections", pinCallSites, 2);
+
+// Both escape hatches from the pinned experience.
+check("pins are disabled under reduced motion", /prefers-reduced-motion[\s\S]{0,80}return false/.test(pinSrc), true);
+check("pins are disabled below 1024px", /PIN_MIN_WIDTH\s*=\s*1024/.test(pinSrc), true);
+check("scrub is on, not stepped", /scrub:\s*1/.test(pinSrc), true);
+
+// The reveal invariant again, this time for the scrubbed hero: a scrub can be
+// parked at any progress value indefinitely, including zero, so animating the
+// headline's opacity would be the invisible hero all over again with a scrollbar
+// holding it there.
+const heroSrc = readFileSync(new URL("../src/components/Hero.jsx", import.meta.url), "utf8");
+const heroCopyTween = heroSrc.match(/\.from\(["']\.hero-copy["'],\s*\{[^}]*\}/)?.[0] ?? "";
+check("hero copy tween exists", heroCopyTween.length > 0, true);
+check("hero copy never animates opacity", /opacity/.test(heroCopyTween), false);
+// The systems tier carries the six accessible anchors and the only labels at
+// rest, so it must not be part of the scroll build either.
+check(
+  "systems tier is not hidden by the build",
+  /\.from\(\s*systems/.test(heroSrc) || /data-tier="system"\][\s\S]{0,60}opacity:\s*0/.test(heroSrc),
+  false
+);
+
 console.log(failures === 0 ? "\nAll checks passed." : `\n${failures} CHECK(S) FAILED`);
 process.exit(failures === 0 ? 0 : 1);

@@ -39,8 +39,22 @@ const EDGE_PX = 0.9;
 // from where the physics put it, large enough to be visible as movement.
 const DRIFT_PUSH = 0.055;
 
-export function PracticeGraph({ lang = "en", isMobile = false, className = "", onActiveChange }) {
-  const view = isMobile ? MOBILE_VIEW : DESKTOP_VIEW;
+// `simplified` drops the capability tier: true on phones, and true again for the
+// explanatory copy of the graph in "How I work", where 36 nodes would bury the
+// seven steps the section exists to explain.
+// `interactive` false hands the highlight to the caller: scroll drives it there,
+// and a pointer must not fight the scrub for control of the same state.
+// `activeId` makes the highlight controlled when provided.
+export function PracticeGraph({
+  lang = "en",
+  simplified = false,
+  interactive = true,
+  activeId,
+  className = "",
+  onActiveChange,
+}) {
+  const view = simplified ? MOBILE_VIEW : DESKTOP_VIEW;
+  const isMobile = simplified;
 
   // The graph data for this breakpoint. Cloned per mount because d3 mutates
   // nodes in place (x, y, vx, vy) and replaces link endpoints with references.
@@ -58,7 +72,9 @@ export function PracticeGraph({ lang = "en", isMobile = false, className = "", o
   const labelRefs = useRef(new Map());
   const simRef = useRef(null);
 
-  const [active, setActive] = useState(null);
+  const [ownActive, setActive] = useState(null);
+  // Controlled when the caller passes activeId, uncontrolled otherwise.
+  const active = activeId !== undefined ? activeId : ownActive;
   // User units per rendered CSS pixel. Everything typographic is divided back
   // out by this, because SVG text scales with the viewBox and a fitted viewBox
   // changes scale with the container: a label sized for a 700px workbench
@@ -350,7 +366,7 @@ export function PracticeGraph({ lang = "en", isMobile = false, className = "", o
 
   const onPointerDown = useCallback(
     (event, node) => {
-      if (isMobile || reduced || event.pointerType === "touch") return;
+      if (!interactive || isMobile || reduced || event.pointerType === "touch") return;
       const point = toSvgPoint(event);
       if (!point) return;
       dragging.current = { node, moved: false };
@@ -359,7 +375,7 @@ export function PracticeGraph({ lang = "en", isMobile = false, className = "", o
       simRef.current?.alphaTarget(0.25).restart();
       event.currentTarget.setPointerCapture?.(event.pointerId);
     },
-    [isMobile, reduced, toSvgPoint]
+    [interactive, isMobile, reduced, toSvgPoint]
   );
 
   const onPointerMove = useCallback(
@@ -398,12 +414,12 @@ export function PracticeGraph({ lang = "en", isMobile = false, className = "", o
         event.preventDefault();
         return;
       }
-      if (isMobile && active !== node.id) {
+      if (interactive && isMobile && active !== node.id) {
         event.preventDefault();
         setActiveNode(node.id);
       }
     },
-    [isMobile, active, setActiveNode]
+    [interactive, isMobile, active, setActiveNode]
   );
 
   return (
@@ -416,7 +432,7 @@ export function PracticeGraph({ lang = "en", isMobile = false, className = "", o
       onPointerUp={endDrag}
       onPointerLeave={(e) => {
         endDrag(e);
-        if (!isMobile) setActiveNode(null);
+        if (interactive && !isMobile) setActiveNode(null);
       }}
     >
       <title>
@@ -437,7 +453,16 @@ export function PracticeGraph({ lang = "en", isMobile = false, className = "", o
               stroke={isLit ? "var(--color-accent)" : "var(--color-line)"}
               strokeWidth={(isLit ? EDGE_PX * 1.7 : EDGE_PX) * scale}
               opacity={lit ? (isLit ? 1 : 0.25) : 0.75}
-              style={{ transition: "stroke 150ms ease, opacity 150ms ease, stroke-width 150ms ease" }}
+              // pathLength normalises every edge to 1 regardless of its real
+              // length, so one dashoffset value draws them all at the same rate.
+              // Default state is fully drawn: the scroll build is an enhancement
+              // layered on top, never the thing that makes edges appear.
+              pathLength="1"
+              strokeDasharray="1"
+              // The transition lives in a class, not a style prop. React would
+              // otherwise own the style object and wipe the inline dashoffset
+              // GSAP writes during the scrub.
+              className="graph-edge"
             />
           );
         })}
@@ -466,14 +491,17 @@ export function PracticeGraph({ lang = "en", isMobile = false, className = "", o
 
           const interaction = {
             onPointerEnter: () => {
-              if (!isMobile) setActiveNode(node.id);
+              if (interactive && !isMobile) setActiveNode(node.id);
             },
             onPointerDown: (e) => onPointerDown(e, node),
-            style: { cursor: isSystem ? "pointer" : isMobile ? "default" : "grab" },
+            style: { cursor: !interactive ? "default" : isSystem ? "pointer" : isMobile ? "default" : "grab" },
           };
 
           return (
-            <g key={node.id}>
+            // data-tier is the handle the hero's scroll build uses to reveal
+            // one tier at a time. GSAP owns this group's opacity; React owns
+            // everything inside it, so the two never write the same property.
+            <g key={node.id} data-tier={node.tier}>
               {isSystem ? (
                 <a
                   href={node.href}
@@ -491,7 +519,7 @@ export function PracticeGraph({ lang = "en", isMobile = false, className = "", o
                   ref={(el) => registerRef(nodeRefs, node.id, el)}
                   aria-hidden="true"
                   onClick={() => {
-                    if (isMobile) setActiveNode(active === node.id ? null : node.id);
+                    if (interactive && isMobile) setActiveNode(active === node.id ? null : node.id);
                   }}
                   {...interaction}
                 >
