@@ -62,6 +62,11 @@ export function BookCall() {
               <iframe
                 title={s.kicker}
                 src={SITE.bookingUrl}
+                // Deferred until it is nearly in view. The scheduler is a whole
+                // third-party app at the bottom of a long page, and loading it
+                // up front costs every visitor bandwidth and third-party
+                // cookies before they have shown any intent to book.
+                loading="lazy"
                 className="h-[42rem] w-full rounded-2xl border border-[var(--color-line)]/70 bg-white/60"
               />
             ) : (

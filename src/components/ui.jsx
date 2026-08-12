@@ -95,9 +95,15 @@ export function LanguageToggle({ className = "" }) {
     <button
       type="button"
       onClick={() => setLang(lang === "en" ? "it" : "en")}
-      aria-label={t.nav.language}
       className={`t-label text-[var(--color-muted)] transition-colors hover:text-[var(--color-ink)] ${className}`}
     >
+      {/* No aria-label. One overriding the visible "EN / IT" produced an
+          accessible name that did not contain the button's own text, which
+          breaks voice control: a user saying "click EN slash IT" addresses a
+          control the browser thinks is called something else entirely. The
+          description is added as text instead, so the spoken name is a
+          superset of what is on screen. */}
+      <span className="sr-only">{t.nav.language}</span>
       <span className={lang === "en" ? "text-[var(--color-ink)]" : undefined}>EN</span>
       <span aria-hidden="true" className="px-1.5 opacity-40">
         /

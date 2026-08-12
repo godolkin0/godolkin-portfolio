@@ -127,13 +127,17 @@ function PlainList() {
         <ol className="mt-16 border-t border-[var(--color-line)]/60">
           {STAGES.map((stage, i) => {
             const copy = s.stages[stage.id];
+            // Reveal renders AS the <li>, so the list stays a real list.
             return (
-              <Reveal key={stage.id} delay={i * 40}>
-                <li className="grid grid-cols-[2.5rem_1fr] items-baseline gap-x-4 gap-y-1 border-b border-[var(--color-line)]/60 py-6 sm:grid-cols-[3.5rem_11rem_1fr] sm:gap-x-8">
-                  <span className="t-mono text-[var(--color-muted)]">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="t-display-sm">{copy.name}</span>
-                  <p className="t-body col-span-2 text-[var(--color-muted)] sm:col-span-1">{copy.copy}</p>
-                </li>
+              <Reveal
+                as="li"
+                key={stage.id}
+                delay={i * 40}
+                className="grid grid-cols-[2.5rem_1fr] items-baseline gap-x-4 gap-y-1 border-b border-[var(--color-line)]/60 py-6 sm:grid-cols-[3.5rem_11rem_1fr] sm:gap-x-8"
+              >
+                <span className="t-mono text-[var(--color-muted)]">{String(i + 1).padStart(2, "0")}</span>
+                <span className="t-display-sm">{copy.name}</span>
+                <p className="t-body col-span-2 text-[var(--color-muted)] sm:col-span-1">{copy.copy}</p>
               </Reveal>
             );
           })}

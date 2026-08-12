@@ -16,7 +16,11 @@ import { useLayoutEffect, useRef, useState } from "react";
 //
 // Reduced motion starts fully shown; starting hidden would leave content
 // invisible once transitions are neutralized.
-export function Reveal({ children, delay = 0, className = "" }) {
+// `as` lets the wrapper BE the semantic element instead of sitting inside it.
+// Wrapping list items in a div put <div> as the direct child of <ol> and left
+// every <li> without a list parent, which is invalid markup and reads to a
+// screen reader as loose text rather than "step 3 of 7".
+export function Reveal({ children, delay = 0, className = "", as: Tag = "div" }) {
   const ref = useRef(null);
   // "waiting" — hidden, awaiting intersection.
   // "mount"   — above the fold at load, playing the CSS mount animation.
@@ -64,15 +68,15 @@ export function Reveal({ children, delay = 0, className = "" }) {
   // It also gets no stagger delay: legibility at load beats choreography.
   if (state === "mount") {
     return (
-      <div ref={ref} className={`translate-y-0 opacity-100 reveal-on-mount ${className}`}>
+      <Tag ref={ref} className={`translate-y-0 opacity-100 reveal-on-mount ${className}`}>
         {children}
-      </div>
+      </Tag>
     );
   }
 
   const hidden = state === "waiting";
   return (
-    <div
+    <Tag
       ref={ref}
       style={{ transitionDelay: `${delay}ms` }}
       className={`transition-all duration-700 ease-out ${
@@ -80,6 +84,6 @@ export function Reveal({ children, delay = 0, className = "" }) {
       } ${className}`}
     >
       {children}
-    </div>
+    </Tag>
   );
 }

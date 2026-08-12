@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# /graph.html is the graph workbench. It is deliberately NOT disallowed here:
+# it already carries a noindex tag, and a crawler has to be allowed to fetch a
+# page in order to read the tag telling it not to index the page. Blocking it
+# here would leave the URL indexable-by-reference and unreadable.

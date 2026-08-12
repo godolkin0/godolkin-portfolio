@@ -15,20 +15,15 @@ export const SITE = {
 
   email: "godolkin0@gmail.com",
 
-  // Standing rule, confirmed again 2026-08-11: the site carries the Godolkin
-  // brand only. The existing LinkedIn URL contains the real name in its slug,
-  // so linking it would put the name back on the page through the address bar.
-  // TODO(godolkin): a vanity URL that does not carry the name, or leave null.
+  // SETTLED, not a to-do: no LinkedIn link. The site carries the Godolkin brand
+  // only, and the one LinkedIn URL available has the real name in its slug, so
+  // linking it would put the name back on the page through the address bar.
+  // The footer hides the link entirely while this is null.
   linkedin: null,
 
-  // TODO(godolkin): Telegram username WITHOUT the @ (e.g. "godolkin").
-  telegram: null,
-
-  // No scheduler yet, confirmed 2026-08-11. The Book a call section renders its
-  // styled placeholder and the contact form carries the real path. Dropping a
-  // cal.com or Calendly URL in here is all it takes to swap the placeholder for
-  // an embedded scheduler.
-  bookingUrl: null,
+  // Booking link, confirmed 2026-08-12. The Book a call section embeds this in
+  // place of its placeholder. Fifteen minutes, matching what the copy promises.
+  bookingUrl: "https://cal.com/godolkin0/15min",
 
   // Where the contact form posts. A Vercel serverless route, so the mail
   // provider's API key stays server-side and never reaches the browser.
