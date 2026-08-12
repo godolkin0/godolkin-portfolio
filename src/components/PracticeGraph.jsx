@@ -35,9 +35,15 @@ const SETTLE_TICKS = 320;
 // across container widths by dividing the view scale back out.
 const LABEL_PX = 13;
 const EDGE_PX = 0.9;
-// Per-tick impulse behind the drift. Small enough that a node never travels far
-// from where the physics put it, large enough to be visible as movement.
-const DRIFT_PUSH = 0.055;
+// Per-tick impulse behind the drift, and how fast the wander cycles.
+//
+// The simplified graph needs more of both. Its viewBox is fitted to 13 nodes
+// rather than 36, so one graph unit is worth about 1.4 screen pixels instead of
+// 1: the identical impulse buys noticeably less visible movement. Combined with
+// a physically smaller screen, the desktop settings measured out at a ~10px
+// sway on a phone, which reads as a still image however correct it is.
+const DRIFT_PUSH = { full: 0.055, simplified: 0.17 };
+const DRIFT_SPEED = { full: 0.01, simplified: 0.019 };
 
 // `simplified` drops the capability tier: true on phones, and true again for the
 // explanatory copy of the graph in "How I work", where 36 nodes would bury the
@@ -215,15 +221,18 @@ export function PracticeGraph({
     // node, each on its own phase, which the link and charge forces immediately
     // pull back. The result is a bounded sway of a few units around the settled
     // position: the graph breathes instead of sitting there like an image.
+    const tier = isMobile ? "simplified" : "full";
+    const push = DRIFT_PUSH[tier];
+    const speed = DRIFT_SPEED[tier];
     let clock = 0;
     sim.force("breathe", () => {
-      clock += 0.01;
+      clock += speed;
       for (let i = 0; i < nodes.length; i += 1) {
         const node = nodes[i];
         if (node.fx != null) continue; // being dragged: leave it alone
         const phase = i * 1.7;
-        node.vx += Math.cos(clock + phase) * DRIFT_PUSH;
-        node.vy += Math.sin(clock * 0.8 + phase) * DRIFT_PUSH;
+        node.vx += Math.cos(clock + phase) * push;
+        node.vy += Math.sin(clock * 0.8 + phase) * push;
       }
     });
 
