@@ -9,6 +9,7 @@ import {
   forceY,
 } from "d3-force";
 import { LINKS, NODES, mobileGraph, radiusOf } from "../data/graph.js";
+import { trackOnce } from "../lib/analytics.js";
 
 // The practice as a force-directed graph, in the visual language of a knowledge
 // graph rather than a chart. It is both an explanation of how the work fits
@@ -423,6 +424,12 @@ export function PracticeGraph({
         event.preventDefault();
         return;
       }
+      // Past the drag guard, so a node that was merely dragged around is not
+      // counted as a node the visitor asked about. This is the clearest
+      // statement of interest the page collects: they picked one of the six by
+      // name. On a phone the first tap lights the node and a second follows the
+      // link, which is one statement made twice, hence trackOnce.
+      trackOnce("system_opened", { system: node.id, via: "graph" });
       if (interactive && isMobile && active !== node.id) {
         event.preventDefault();
         setActiveNode(node.id);

@@ -14,7 +14,7 @@ export function ReportDemo({ badge }) {
   const locale = lang === "it" ? "it-IT" : "en-US";
   const [weeks, setWeeks] = useState(SAMPLE_WEEKS);
   const [snapshot, setSnapshot] = useState(null);
-  const pipeline = usePipeline(3, { gap: 400, spin: 600 });
+  const pipeline = usePipeline(3, { gap: 400, spin: 600, name: "report-gen" });
 
   const report = useMemo(() => (snapshot ? buildReport(snapshot, lang) : null), [snapshot, lang]);
 

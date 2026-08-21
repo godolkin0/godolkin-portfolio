@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { SITE } from "../config.js";
 import { useI18n } from "../i18n.jsx";
+import { track } from "../lib/analytics.js";
 
 // The one orange mark on the page, and the whole reason the accent exists.
 // Everything else is black, white or grey; that restraint is what stops a
@@ -82,7 +83,15 @@ export function BookCallButton() {
       }`}
       aria-hidden={overBooking}
     >
-      <PillButton href="#book" tabIndex={overBooking ? -1 : undefined} className="shadow-[0_8px_30px_rgb(16_24_32_/_0.16)]">
+      <PillButton
+        href="#book"
+        tabIndex={overBooking ? -1 : undefined}
+        // Worth its own event and not merged into the booking section view:
+        // together they answer whether this button earns the screen space it
+        // permanently occupies, or whether visitors were scrolling there anyway.
+        onClick={() => track("cta_clicked", { target: "book" })}
+        className="shadow-[0_8px_30px_rgb(16_24_32_/_0.16)]"
+      >
         {t.nav.bookACall}
       </PillButton>
     </div>
@@ -94,7 +103,13 @@ export function LanguageToggle({ className = "" }) {
   return (
     <button
       type="button"
-      onClick={() => setLang(lang === "en" ? "it" : "en")}
+      onClick={() => {
+        const next = lang === "en" ? "it" : "en";
+        // The one number that decides whether the Italian half of copy.js is
+        // worth the maintenance it costs.
+        track("language_switched", { to: next });
+        setLang(next);
+      }}
       className={`t-label text-[var(--color-muted)] transition-colors hover:text-[var(--color-ink)] ${className}`}
     >
       {/* No aria-label. One overriding the visible "EN / IT" produced an
