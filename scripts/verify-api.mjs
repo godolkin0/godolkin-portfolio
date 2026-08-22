@@ -9,6 +9,7 @@
 import { createHmac } from "node:crypto";
 import event from "../api/event.js";
 import cal from "../api/cal-webhook.js";
+import { headersForKey } from "../api/_supabase.js";
 
 let failures = 0;
 function check(name, actual, expected) {
@@ -56,6 +57,19 @@ check("a string body is parsed", res.code, 204);
 res = mockRes();
 await event(mockReq("POST", "not json at all"), res);
 check("a garbage body does not throw", res.code, 204);
+
+// Supabase's two server-side key formats authenticate differently, and sending
+// the new one as a Bearer token fails at RUNTIME with a misleading "Invalid JWT"
+// rather than at deploy. That is precisely the failure nobody would think to
+// look for, so it gets pinned here.
+console.log("\n— Supabase key formats —");
+const legacy = headersForKey("eyJhbGciOiJIUzI1NiJ9.fake.signature");
+check("a legacy JWT key is sent as a Bearer token", legacy.Authorization?.startsWith("Bearer eyJ"), true);
+check("a legacy JWT key is also sent as apikey", legacy.apikey?.startsWith("eyJ"), true);
+
+const modern = headersForKey("sb_secret_abc123");
+check("a new secret key is sent as apikey", modern.apikey, "sb_secret_abc123");
+check("a new secret key is NOT sent as a Bearer token", "Authorization" in modern, false);
 
 console.log("\n— /api/cal-webhook —");
 const secret = process.env.CAL_WEBHOOK_SECRET;

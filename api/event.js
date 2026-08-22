@@ -8,11 +8,11 @@
 // a mail actually accepted by Resend (api/contact.js) and a webhook carrying a
 // valid signature (api/cal-webhook.js).
 //
-// Environment, set in the Vercel project (never committed):
-//   SUPABASE_URL                https://<ref>.supabase.co
-//   SUPABASE_SERVICE_ROLE_KEY   service role key, bypasses RLS by design
-// Both optional: with neither set the route accepts and drops, so the site runs
-// exactly as before until the table exists.
+// Storage is handled by api/_supabase.js, including the two key formats
+// Supabase now issues. With no database configured the route accepts and drops,
+// so the site runs exactly as before until the table exists.
+
+import { insert, isConfigured } from "./_supabase.js";
 
 // Keep in sync with EVENTS in src/lib/analytics.js.
 const EVENTS = new Set([
@@ -56,33 +56,14 @@ export default async function handler(req, res) {
   // written. Storing it would turn an anonymous counter into personal data
   // under GDPR, and it answers no question worth asking here.
 
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) {
+  if (!isConfigured()) {
     // Pre-setup, and a legitimate state to be in: the event is visible in the
     // function log and nowhere else.
     console.log("[event]", row.name, JSON.stringify(row.props));
     return res.status(204).end();
   }
 
-  try {
-    const response = await fetch(`${url}/rest/v1/site_events`, {
-      method: "POST",
-      headers: {
-        apikey: key,
-        Authorization: `Bearer ${key}`,
-        "Content-Type": "application/json",
-        Prefer: "return=minimal",
-      },
-      body: JSON.stringify(row),
-    });
-    if (!response.ok) {
-      console.error("[event] insert rejected:", response.status, await response.text());
-    }
-  } catch (error) {
-    // A dead database must not take the page's demos down with it.
-    console.error("[event] insert threw:", error);
-  }
+  await insert(row);
   return res.status(204).end();
 }
 

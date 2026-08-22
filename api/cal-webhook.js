@@ -13,9 +13,12 @@
 //   TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID   handled in api/_telegram.js
 //   SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY   optional, records the booking
 //                        alongside the page events so the funnel has an end.
+//                        A booking that alerted but was not logged is still a
+//                        booking, so a database failure never fails the hook.
 
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { esc, notify } from "./_telegram.js";
+import { insert } from "./_supabase.js";
 
 // Anyone who finds this URL can post to it, and it is the one endpoint wired
 // straight to a phone notification. The signature is the entire defence, so a
@@ -74,7 +77,7 @@ export default async function handler(req, res) {
   // servers and carries nothing that ties it back to the browser that booked.
   // The join is by time, not by identity, which is the honest limit of a
   // cookie-free funnel and is good enough at this volume.
-  await record({ trigger, when: p.startTime ?? null });
+  await insert({ name: "booking", props: { trigger, when: p.startTime ?? null } });
 
   return res.status(200).json({ ok: true });
 }
@@ -133,27 +136,6 @@ function readRawBody(req) {
     req.on("end", () => done(data));
     req.on("error", () => done(null));
   });
-}
-
-async function record(props) {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return;
-  try {
-    await fetch(`${url}/rest/v1/site_events`, {
-      method: "POST",
-      headers: {
-        apikey: key,
-        Authorization: `Bearer ${key}`,
-        "Content-Type": "application/json",
-        Prefer: "return=minimal",
-      },
-      body: JSON.stringify({ name: "booking", props }),
-    });
-  } catch (error) {
-    // A booking that alerted but did not get logged is still a booking.
-    console.error("[cal] could not record the booking:", error);
-  }
 }
 
 function formatWhen(iso, timeZone) {
