@@ -12,7 +12,7 @@ export function SignalBotDemo({ badge }) {
   const { lang, t } = useI18n();
   const d = t.demoSignal;
   const [scenarioId, setScenarioId] = useState(SCENARIOS[0].id);
-  const pipeline = usePipeline(4, { gap: 450, spin: 650 });
+  const pipeline = usePipeline(4, { gap: 450, spin: 650, name: "signal-bot" });
 
   const scenario = SCENARIOS.find((s) => s.id === scenarioId);
   const result = useMemo(() => analyzeScenario(scenario), [scenario]);

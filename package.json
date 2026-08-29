@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "verify": "node scripts/verify-logic.mjs",
+    "verify": "node scripts/verify-logic.mjs && node scripts/verify-api.mjs",
     "assets": "powershell -ExecutionPolicy Bypass -File scripts/generate-assets.ps1"
   },
   "dependencies": {

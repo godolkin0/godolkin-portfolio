@@ -20,7 +20,7 @@ export function TriageDemo({ badge }) {
   const examples = EXAMPLE_LEADS[lang];
   const [message, setMessage] = useState(EXAMPLE_LEADS.en[0].text);
   const [submitted, setSubmitted] = useState(null);
-  const pipeline = usePipeline(3, { gap: 400, spin: 600 });
+  const pipeline = usePipeline(3, { gap: 400, spin: 600, name: "lead-triage" });
 
   // If the box still holds an untouched example, swap it to the new language.
   useEffect(() => {

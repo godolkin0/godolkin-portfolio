@@ -9,6 +9,11 @@
 //   CONTACT_FROM     verified sender. Defaults to Resend's shared test sender,
 //                    which only delivers to the account owner's own address.
 
+// Optional, and handled in api/_telegram.js:
+//   TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID   push the enquiry to the phone too.
+
+import { esc, notify } from "./_telegram.js";
+
 const TO = process.env.CONTACT_TO || "godolkin0@gmail.com";
 const FROM = process.env.CONTACT_FROM || "Godolkin site <onboarding@resend.dev>";
 
@@ -76,6 +81,26 @@ export default async function handler(req, res) {
       console.error("[contact] resend rejected the message:", response.status, await response.text());
       return res.status(502).json({ error: "delivery_failed" });
     }
+    // Alerted only after Resend has accepted the mail, and this is the whole
+    // reason the alert lives here rather than on /api/event: reaching this line
+    // means a real message was really delivered, which is not something a
+    // stranger with curl can cause. The enquiry is already safe in the inbox by
+    // now, so a failed or unconfigured alert changes nothing for the visitor.
+    await notify(
+      [
+        "<b>New enquiry · godolkin.dev</b>",
+        "",
+        `<b>${esc(name)}</b>`,
+        esc(email),
+        company ? esc(company) : null,
+        interests.length ? `Interested in: ${esc(interests.join(", "))}` : null,
+        "",
+        esc(message ? message.slice(0, 700) : "(no message)"),
+      ]
+        .filter((line) => line !== null)
+        .join("\n")
+    );
+
     return res.status(200).json({ ok: true });
   } catch (error) {
     console.error("[contact] delivery threw:", error);

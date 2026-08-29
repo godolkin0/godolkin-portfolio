@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Reveal } from "./Reveal.jsx";
 import { useI18n } from "../i18n.jsx";
 import { SITE } from "../config.js";
 import { ArrowMark } from "./ui.jsx";
+import { track, trackOnce } from "../lib/analytics.js";
 
 // A real form, not a mailto. The old CTAs pointed at mail.google.com, which
 // forces every visitor through a Gmail login screen: Outlook, Libero and PEC
@@ -14,6 +15,22 @@ export function BookCall() {
   const f = s.form;
   const [state, setState] = useState("idle");
   const [interests, setInterests] = useState([]);
+  const schedulerRef = useRef(null);
+
+  // The scheduler is a cross-origin iframe, so a booking made inside it is
+  // invisible from this side: no click, no submit, no callback. What IS
+  // observable is the window losing focus to that frame, which means the
+  // visitor started interacting with the scheduler rather than merely scrolling
+  // past it. Treat it as intent and nothing more. The confirmed booking arrives
+  // server-side, signed, at /api/cal-webhook, and that is the real number.
+  useEffect(() => {
+    if (!SITE.bookingUrl) return;
+    const onBlur = () => {
+      if (document.activeElement === schedulerRef.current) trackOnce("booking_widget_focused");
+    };
+    window.addEventListener("blur", onBlur);
+    return () => window.removeEventListener("blur", onBlur);
+  }, []);
 
   const toggleInterest = (id) =>
     setInterests((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
@@ -38,8 +55,13 @@ export function BookCall() {
         }),
       });
       setState(response.ok ? "sent" : "error");
+      // Count and shape only. Not the name, not the address, not a word of the
+      // message: those went to the inbox, which is where they belong, and an
+      // analytics table is not a second copy of the enquiry.
+      track(response.ok ? "contact_submitted" : "contact_failed", { interests: interests.length });
     } catch {
       setState("error");
+      track("contact_failed", { interests: interests.length, reason: "network" });
     }
   };
 
@@ -60,6 +82,7 @@ export function BookCall() {
           <Reveal>
             {SITE.bookingUrl ? (
               <iframe
+                ref={schedulerRef}
                 title={s.kicker}
                 src={SITE.bookingUrl}
                 // Deferred until it is nearly in view. The scheduler is a whole

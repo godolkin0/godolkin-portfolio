@@ -14,5 +14,14 @@ dist/
 .vercel/
 
 # claude code tooling + internal build brief (keep the public repo clean)
-.claude/
+# The trailing /* matters: git will not re-include a path underneath an
+# excluded DIRECTORY, so `.claude/` plus a negation silently ignores the skills
+# anyway. Excluding the contents instead leaves the directory itself visible for
+# the negation to work against.
+.claude/*
+# Skills are the exception, and they have to be committed to be worth anything:
+# a web session clones this repo and sees only what git tracks, so an ignored
+# skill is a skill that never loads. Nothing in there is private; it is the same
+# method the site already describes out loud.
+!.claude/skills/
 fable5-build-prompt.md
