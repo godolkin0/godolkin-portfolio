@@ -7,9 +7,30 @@
 // shows up on the page. So they get asserted here instead.
 
 import { createHmac } from "node:crypto";
-import event from "../api/event.js";
-import cal from "../api/cal-webhook.js";
-import { headersForKey } from "../api/_supabase.js";
+
+// Stripped BEFORE the routes are imported, and this is load-bearing rather
+// than tidy. These checks call the real handlers, and the handlers do real
+// work when they find real credentials: `npm run verify` runs as part of the
+// Vercel build, where all of these are set. The first deploy proved it by
+// writing three fixture rows into the live analytics table and sending a
+// Telegram alert announcing a booking that did not exist.
+//
+// Unset, insert() reports "not_configured" and notify() returns false, so
+// every handler still runs end to end and every assertion below still means
+// what it says. What these checks actually test is routing, validation and
+// the signature comparison, none of which need a database or a phone.
+for (const key of [
+  "SUPABASE_URL",
+  "SUPABASE_SERVICE_ROLE_KEY",
+  "TELEGRAM_BOT_TOKEN",
+  "TELEGRAM_CHAT_ID",
+]) {
+  delete process.env[key];
+}
+
+const { default: event } = await import("../api/event.js");
+const { default: cal } = await import("../api/cal-webhook.js");
+const { headersForKey, isConfigured } = await import("../api/_supabase.js");
 
 let failures = 0;
 function check(name, actual, expected) {
@@ -37,7 +58,14 @@ function mockReq(method, body, headers = {}) {
   return { method, body, headers, readableEnded: true, on: () => {} };
 }
 
-console.log("— /api/event —");
+// The guard that keeps the guard honest. If someone later removes the strip
+// above, or adds a credential the loop does not know about, this fails here
+// instead of quietly resuming writes to the live table on the next deploy.
+console.log("— Isolation —");
+check("the checks cannot reach the live database", isConfigured(), false);
+check("the checks cannot reach Telegram", Boolean(process.env.TELEGRAM_BOT_TOKEN), false);
+
+console.log("\n— /api/event —");
 let res = mockRes();
 await event(mockReq("GET"), res);
 check("GET is rejected", res.code, 405);
