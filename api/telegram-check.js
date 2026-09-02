@@ -22,6 +22,12 @@ import { env } from "./_env.js";
 const TIMEOUT_MS = 8000;
 
 export default async function handler(req, res) {
+  // A diagnostic that can be cached is a diagnostic that lies. Reloading after
+  // changing something and getting a byte-identical answer back is exactly the
+  // shape of a cache hit, and it is indistinguishable from "nothing changed",
+  // which is the one conclusion this page must never report falsely.
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+
   const secret = env("CAL_WEBHOOK_SECRET");
   if (!secret) return res.status(503).json({ error: "not_configured" });
 
@@ -69,9 +75,15 @@ export default async function handler(req, res) {
   }
 
   return res.status(200).json({
+    // Read this first on a reload. If it has not moved, the page came from a
+    // cache and nothing below it is current.
+    checked_at: new Date().toISOString(),
     bot: me?.ok ? { username: me.result.username, id: me.result.id } : { error: describe(me) },
     webhook_stealing_updates: Boolean(webhook?.result?.url),
     webhook_url: webhook?.result?.url || null,
+    // Non-zero with an empty chat list below means something else is polling
+    // this bot and confirming the updates before this route can read them.
+    pending_updates: webhook?.result?.pending_update_count ?? null,
     configured_chat_id: chatId || null,
     chats_that_have_messaged_this_bot: chats,
     test_message: sent === null ? "not requested" : sent?.ok ? "delivered" : describe(sent),
@@ -89,7 +101,11 @@ function verdict({ me, webhook, chatId, chats, sent }) {
   if (sent?.ok) return "Telegram is working. Alerts will reach you.";
   if (!chatId) return "TELEGRAM_CHAT_ID is not set. Pick the id below and add it in Vercel.";
   if (chats.length === 0) {
-    return "No webhook is in the way, but the bot has no recent messages either. Telegram only keeps unread updates for about 24 hours. Send this bot a message now, then load this page again.";
+    const pending = webhook?.result?.pending_update_count ?? 0;
+    if (pending > 0) {
+      return `Telegram is holding ${pending} update(s) for this bot, but none of them reached this page, which means something else is polling the bot and confirming them first. Turn off any n8n or Zapier trigger using this bot, then reload.`;
+    }
+    return "No webhook is in the way, but the bot has no recent messages either. Check the checked_at time above: if it did not change on reload, you are looking at a cached page, so force a refresh. Otherwise send this bot a message and reload again, and make sure it is @Ganalyze_bot you are messaging.";
   }
   const match = chats.find((c) => String(c.id) === String(chatId));
   if (match) {
