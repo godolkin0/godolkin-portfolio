@@ -7,6 +7,7 @@
 // shows up on the page. So they get asserted here instead.
 
 import { createHmac } from "node:crypto";
+import { readFileSync, readdirSync } from "node:fs";
 
 // Stripped BEFORE the routes are imported, and this is load-bearing rather
 // than tidy. These checks call the real handlers, and the handlers do real
@@ -32,6 +33,7 @@ const { default: event } = await import("../api/event.js");
 const { default: cal } = await import("../api/cal-webhook.js");
 const { headersForKey, isConfigured } = await import("../api/_supabase.js");
 const { default: telegramCheck } = await import("../api/telegram-check.js");
+const { env } = await import("../api/_env.js");
 
 let failures = 0;
 function check(name, actual, expected) {
@@ -91,6 +93,22 @@ check("a garbage body does not throw", res.code, 204);
 // the new one as a Bearer token fails at RUNTIME with a misleading "Invalid JWT"
 // rather than at deploy. That is precisely the failure nobody would think to
 // look for, so it gets pinned here.
+// A token pasted into a dashboard with a trailing newline reads as correct on
+// screen and fails at the API with an error that blames the token. That cost a
+// real afternoon, so the trimming is asserted rather than assumed, and the
+// second check is what stops a future edit from quietly reintroducing a raw
+// process.env read that skips it.
+console.log("\n— Environment reading —");
+process.env.__VERIFY_PADDED__ = "  padded-value\n";
+check("surrounding whitespace is stripped", env("__VERIFY_PADDED__"), "padded-value");
+delete process.env.__VERIFY_PADDED__;
+check("a missing variable reads as empty", env("__VERIFY_ABSENT__"), "");
+
+const rawReaders = readdirSync(new URL("../api/", import.meta.url))
+  .filter((f) => f.endsWith(".js") && f !== "_env.js")
+  .filter((f) => /process\.env/.test(readFileSync(new URL(`../api/${f}`, import.meta.url), "utf8")));
+check("every route reads the environment through env()", rawReaders.join(", ") || "none", "none");
+
 console.log("\n— Supabase key formats —");
 const legacy = headersForKey("eyJhbGciOiJIUzI1NiJ9.fake.signature");
 check("a legacy JWT key is sent as a Bearer token", legacy.Authorization?.startsWith("Bearer eyJ"), true);

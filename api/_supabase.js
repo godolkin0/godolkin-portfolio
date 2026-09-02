@@ -8,8 +8,10 @@
 // Both optional: with neither set, insert() reports "not configured" and the
 // caller carries on. Nothing on the site depends on this succeeding.
 
+import { env } from "./_env.js";
+
 export function isConfigured() {
-  return Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
+  return Boolean(env("SUPABASE_URL") && env("SUPABASE_SERVICE_ROLE_KEY"));
 }
 
 // Supabase has two generations of server-side key and they are authenticated
@@ -38,8 +40,8 @@ export { authHeaders as headersForKey };
 // request that must succeed whatever the database does: a lost analytics row is
 // not worth a failed form submission or a webhook Cal.com will keep retrying.
 export async function insert(row) {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = env("SUPABASE_URL");
+  const key = env("SUPABASE_SERVICE_ROLE_KEY");
   if (!url || !key) return "not_configured";
 
   try {

@@ -13,9 +13,10 @@
 //   TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID   push the enquiry to the phone too.
 
 import { esc, notify } from "./_telegram.js";
+import { env } from "./_env.js";
 
-const TO = process.env.CONTACT_TO || "godolkin0@gmail.com";
-const FROM = process.env.CONTACT_FROM || "Godolkin site <onboarding@resend.dev>";
+const TO = env("CONTACT_TO") || "godolkin0@gmail.com";
+const FROM = env("CONTACT_FROM") || "Godolkin site <onboarding@resend.dev>";
 
 // Caps, not validation theatre: they stop a hand-rolled POST from mailing a
 // megabyte through the endpoint.
@@ -44,7 +45,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "missing_fields" });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
+  const apiKey = env("RESEND_API_KEY");
   if (!apiKey) {
     // Fail loudly in the log and honestly to the visitor: the form's error state
     // shows the mailto: fallback, so a missing key costs the enquiry nothing.

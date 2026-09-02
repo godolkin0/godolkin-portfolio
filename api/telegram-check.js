@@ -17,11 +17,12 @@
 // to keep honest, and it has no reason to outlive the problem.
 
 import { timingSafeEqual } from "node:crypto";
+import { env } from "./_env.js";
 
 const TIMEOUT_MS = 8000;
 
 export default async function handler(req, res) {
-  const secret = process.env.CAL_WEBHOOK_SECRET;
+  const secret = env("CAL_WEBHOOK_SECRET");
   if (!secret) return res.status(503).json({ error: "not_configured" });
 
   // Vercel's Node helpers populate req.query, but the route is also reachable
@@ -31,8 +32,8 @@ export default async function handler(req, res) {
   const key = typeof query.key === "string" ? query.key : "";
   if (!safeEqual(key, secret)) return res.status(401).json({ error: "bad_key" });
 
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const token = env("TELEGRAM_BOT_TOKEN");
+  const chatId = env("TELEGRAM_CHAT_ID");
   if (!token) {
     return res.status(200).json({
       verdict: "TELEGRAM_BOT_TOKEN is not set in this environment. Nothing else can be checked.",
