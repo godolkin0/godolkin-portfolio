@@ -11,11 +11,13 @@
 // Callers are already inside a request that the visitor is waiting on. A slow
 // or hanging Telegram API must not hold a form submission open, so the send
 // gets its own short deadline and gives up quietly.
+import { env } from "./_env.js";
+
 const TIMEOUT_MS = 4000;
 
 export async function notify(text) {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const token = env("TELEGRAM_BOT_TOKEN");
+  const chatId = env("TELEGRAM_CHAT_ID");
   if (!token || !chatId) return false;
 
   const controller = new AbortController();

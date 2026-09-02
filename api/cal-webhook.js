@@ -19,6 +19,7 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { esc, notify } from "./_telegram.js";
 import { insert } from "./_supabase.js";
+import { env } from "./_env.js";
 
 // Anyone who finds this URL can post to it, and it is the one endpoint wired
 // straight to a phone notification. The signature is the entire defence, so a
@@ -30,7 +31,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "method_not_allowed" });
   }
 
-  const secret = process.env.CAL_WEBHOOK_SECRET;
+  const secret = env("CAL_WEBHOOK_SECRET");
   if (!secret) {
     console.error("[cal] CAL_WEBHOOK_SECRET is not set; refusing to trust this delivery");
     return res.status(503).json({ error: "not_configured" });
