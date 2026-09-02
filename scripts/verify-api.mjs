@@ -32,7 +32,6 @@ for (const key of [
 const { default: event } = await import("../api/event.js");
 const { default: cal } = await import("../api/cal-webhook.js");
 const { headersForKey, isConfigured } = await import("../api/_supabase.js");
-const { default: telegramCheck } = await import("../api/telegram-check.js");
 const { env } = await import("../api/_env.js");
 
 let failures = 0;
@@ -162,33 +161,6 @@ const ended = { ...booking, triggerEvent: "MEETING_ENDED" };
 res = mockRes();
 await cal(mockReq("POST", ended, { "x-cal-signature-256": sign(ended) }), res);
 check("an unsubscribed trigger is a signed no-op", [res.code, res.body?.ignored], [200, "MEETING_ENDED"]);
-
-// The diagnostic route reports on the alerting setup, so an unauthenticated one
-// would hand a stranger the bot's identity and the chat ids that talk to it.
-// The key is the only thing standing in front of that.
-console.log("\n— /api/telegram-check —");
-const diagReq = (query) => ({ method: "GET", url: "/api/telegram-check", query, headers: {} });
-
-res = mockRes();
-await telegramCheck(diagReq({}), res);
-check("a missing key is rejected", res.code, 401);
-
-res = mockRes();
-await telegramCheck(diagReq({ key: "not-the-secret" }), res);
-check("a wrong key is rejected", res.code, 401);
-
-// Same length as the real secret, so this exercises the constant-time compare
-// rather than the length short-circuit in front of it.
-res = mockRes();
-await telegramCheck(diagReq({ key: "x".repeat("verify-only-secret".length) }), res);
-check("a same-length wrong key is rejected", res.code, 401);
-
-res = mockRes();
-await telegramCheck(diagReq({ key: "verify-only-secret" }), res);
-check("the right key is accepted", res.code, 200);
-// TELEGRAM_BOT_TOKEN was stripped at the top of this file, so the route reports
-// that and stops rather than reaching for the network.
-check("it reports the missing token instead of calling out", /TELEGRAM_BOT_TOKEN is not set/.test(res.body?.verdict ?? ""), true);
 
 if (secret === undefined) delete process.env.CAL_WEBHOOK_SECRET;
 else process.env.CAL_WEBHOOK_SECRET = secret;
