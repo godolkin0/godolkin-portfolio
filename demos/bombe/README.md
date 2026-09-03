@@ -41,9 +41,9 @@ npx vercel --prod          # then: Vercel dashboard -> Settings -> Deployment Pr
 Or drag this folder onto https://vercel.com/new. Any static host works (Netlify, Cloudflare
 Pages, S3, plain nginx); paths are relative, so serving it from a subdirectory works too.
 
-`standalone.html` is the whole site inlined into one 1.9 MB file — no server needed.
-Send it as an attachment and it opens offline in any browser. Its "La carta" / "Torte"
-links only resolve if `menu.html` and `torte.html` sit next to it.
+`standalone.html` is the **home page only**, inlined into one 1.9 MB file — no server
+needed, opens offline in any browser. Its "La carta" / "Torte" links only resolve if
+`menu.html` and `torte.html` sit next to it.
 
 ## Files
 
@@ -51,7 +51,7 @@ links only resolve if `menu.html` and `torte.html` sit next to it.
 |---|---|
 | `index.html` | The site. 69 KB of markup; the Claude Design runtime renders `<x-dc>`, `<image-slot>` and `<sc-if>`. |
 | `assets/` | 10 photos (webp), 11 font subsets (woff2), 4 JS files (the design runtime + React 18 UMD). |
-| `menu.html` / `torte.html` | Placeholder pages for "La carta" and "Torte" — see below. |
+| `menu.html` / `torte.html` | "La carta" (full price list) and "Torte" (cakes to order). |
 | `og.jpg` | Link-preview card, 1200×630. |
 | `favicon.svg`, `apple-touch-icon.png` | Icons. |
 | `robots.txt`, `vercel.json` | `noindex` — this is a private preview, not the client's live site. |
@@ -72,12 +72,21 @@ links only resolve if `menu.html` and `torte.html` sit next to it.
    icons, `lang="it"` and `noindex`. These must go *inside* the bundle's `<helmet>` block —
    the runtime replaces the whole document on load, so outer `<head>` edits are discarded.
 
-3. **Dead links.** Five links — including the primary gold call to action — pointed at
-   `Bombe Parma Menu.dc.html` and `Bombe Parma Torte.dc.html`, two sibling pages that were
-   never exported. Rewritten to `menu.html` / `torte.html`, with placeholder pages in the
-   site's own visual language.
+3. **Cross-page links.** All three exports link to each other by their Claude Design
+   filenames (`Bombe Parma v2.dc.html`, `Bombe Parma Menu.dc.html`,
+   `Bombe Parma Torte.dc.html`). Rewritten to `index.html` / `menu.html` / `torte.html`,
+   anchors included (`index.html#sedi`).
 
-4. **Image fallbacks.** The hero and "Storia" images are hotlinked from `dolcesalato.com`.
+   The menu and cake pages arrived after the first deploy, which briefly shipped with
+   placeholders in their place; those are gone.
+
+4. **Shared assets.** Each export re-mints new UUIDs for byte-identical fonts and runtime,
+   so the three pages together carried three copies of everything. Deduplicated by content
+   hash into one `assets/` folder — about 950 KB saved. Each page's runtime is also patched
+   to load React from `assets/` instead of unpkg.com, so the site has no CDN dependency.
+
+5. **Image fallbacks.** The hero and "Storia" images on the home page, and both full-width
+   bands on the menu page, are hotlinked from `dolcesalato.com`.
    When they fail the hero renders black and Storia shows a broken-image icon. A bundled
    photo now sits behind each: if the remote image loads it covers the fallback, otherwise
    a real photo still shows.
@@ -95,7 +104,6 @@ this (see the notes handed over with it).
 
 - **Replace the hero and Storia images.** They are hotlinked from a third party's server —
   they can break at any time, and they are not the client's to serve.
-- Fill in the real menu and cake pages; the placeholders are honest but empty.
 - Point `og:image` at an absolute URL on the final domain — relative OG images are resolved
   inconsistently by link unfurlers.
 - Drop the `noindex` in `robots.txt`, `vercel.json` and `index.html` only when it should
