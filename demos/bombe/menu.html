@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Il menù in preparazione. — Bombé Parma</title>
+<meta name="description" content="Pasticceria e bistrot, dolce e salato: la carta completa arriva qui a breve. Nel frattempo la trovi al banco, in entrambe le sedi.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0B0908">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&family=Jost:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--ink:#0B0908;--cream:#F2EBE1;--accent:#C9A063}
+  html{scroll-behavior:smooth}
+  body{min-height:100svh;background:var(--ink);color:var(--cream);
+    font-family:'Jost',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    display:flex;flex-direction:column;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .serif{font-family:'Bodoni Moda','Didot',Georgia,'Times New Roman',serif;font-weight:400}
+  .glow{position:fixed;left:-30%;bottom:-25%;width:90vw;height:90vw;max-width:900px;max-height:900px;
+    pointer-events:none;border-radius:50%;background:radial-gradient(circle,rgba(201,160,99,.16),transparent 68%);filter:blur(14px)}
+  header{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px}
+  .logo{display:flex;flex-direction:column;gap:2px}
+  .logo b{font-family:'Bodoni Moda',Georgia,serif;font-weight:400;font-size:20px;letter-spacing:.24em;line-height:1;text-transform:uppercase}
+  .logo span{font-size:8px;letter-spacing:.34em;text-transform:uppercase;color:var(--accent);padding-left:2px}
+  .back{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(242,235,225,.62);
+    border:1px solid rgba(242,235,225,.2);border-radius:999px;padding:11px 20px;transition:color .5s,border-color .5s}
+  .back:hover{color:var(--accent);border-color:rgba(201,160,99,.5)}
+  main{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:center;
+    padding:64px 20px 40px;max-width:1280px;width:100%;margin:0 auto}
+  .kicker{display:flex;align-items:center;gap:14px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(242,235,225,.55)}
+  .kicker i{font-style:normal;color:var(--accent)}
+  .kicker s{display:block;width:38px;height:1px;background:var(--accent);text-decoration:none}
+  h1{margin:20px 0 0;font-size:clamp(40px,9vw,104px);line-height:.95;letter-spacing:-.025em;text-wrap:balance}
+  h1 em{font-style:italic;color:var(--accent)}
+  .lede{margin:24px 0 0;max-width:46ch;font-size:clamp(15px,1.15vw,18px);line-height:1.7;color:rgba(242,235,225,.74);font-weight:300}
+  .rule{margin:44px 0 0;height:1px;background:rgba(242,235,225,.1);max-width:1280px}
+  .contact{display:grid;grid-template-columns:1fr;gap:28px;margin-top:36px}
+  @media(min-width:760px){.contact{grid-template-columns:1fr 1fr;gap:44px}}
+  .card small{display:block;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+  .card p{font-size:14px;line-height:1.8;color:rgba(242,235,225,.72);font-weight:300}
+  .card a.tel{font-size:15px;letter-spacing:.06em;color:var(--cream);border-bottom:1px solid rgba(201,160,99,.4);padding-bottom:2px}
+  .card a.tel:hover{color:var(--accent)}
+  footer{position:relative;z-index:2;padding:28px 20px;display:flex;flex-wrap:wrap;gap:12px 24px;
+    justify-content:space-between;border-top:1px solid rgba(242,235,225,.08);
+    font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:rgba(242,235,225,.4)}
+  @media (prefers-reduced-motion:no-preference){
+    .fade{opacity:0;transform:translateY(18px);animation:rise 1.3s cubic-bezier(.16,1,.3,1) forwards}
+    .d1{animation-delay:.1s}.d2{animation-delay:.26s}.d3{animation-delay:.42s}.d4{animation-delay:.58s}
+    @keyframes rise{to{opacity:1;transform:none}}
+  }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<header>
+  <a class="logo" href="/" aria-label="Bombé Parma — home"><b class="serif">Bombé</b><span>Pasticceria &amp; Bistrot</span></a>
+  <a class="back" href="/">← Torna al sito</a>
+</header>
+
+<main>
+  <div class="kicker fade d1"><s></s><i>03</i><span>La carta</span></div>
+  <h1 class="serif fade d2">Il menù<br><em>in preparazione.</em></h1>
+  <p class="lede fade d3">Pasticceria e bistrot, dolce e salato: la carta completa arriva qui a breve. Nel frattempo la trovi al banco, in entrambe le sedi.</p>
+  <div class="rule fade d3"></div>
+  <div class="contact fade d4">
+    <div class="card">
+      <small>Bombé Farini · Centro storico</small>
+      <p>Str. Farini 19/A — Parma<br>7:30 — 20:30 · dom. 8:00<br>
+      <a class="tel" href="tel:+390521282800">0521 282800</a></p>
+    </div>
+    <div class="card">
+      <small>Bombé Emilia · Parma est</small>
+      <p>Via Emilia Est 117 — Parma<br>7:30 — 21:00 · tutti i giorni<br>
+      <a class="tel" href="tel:+3905211759831">0521 1759831</a></p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span>Bombé — Pasticceria &amp; Bistrot</span>
+  <a href="https://www.instagram.com/bombe_parma/" target="_blank" rel="noopener">@bombe_parma</a>
+</footer>
+</body>
+</html>

@@ -1,0 +1,3 @@
+# Anteprima privata / private client preview — not for indexing.
+User-agent: *
+Disallow: /
