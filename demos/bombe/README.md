@@ -1,45 +1,79 @@
 # Bombé Parma — demo preview
 
-Static client preview for **Bombé — Pasticceria & Bistrot** (Str. Farini 19/A · Via Emilia Est 117, Parma).
+Static client preview for **Bombé — Pasticceria & Bistrot**
+(Str. Farini 19/A · Via Emilia Est 117, Parma). Built from a Claude Design export.
 
-Deployed as its own Vercel project (`bombe`) with **Root Directory = `demos/bombe`**.
 Nothing here is part of the godolkin-portfolio site itself.
+
+## How to put it online
+
+The folder is a plain static site — no build step, no dependencies.
+
+```bash
+cd demos/bombe
+npx vercel --prod          # then: Vercel dashboard -> Settings -> Deployment Protection
+                           #       -> turn Vercel Authentication OFF, or the client hits a login wall
+```
+
+Or drag this folder onto https://vercel.com/new. Any static host works (Netlify, Cloudflare
+Pages, S3, plain nginx); paths are relative, so serving it from a subdirectory works too.
+
+`standalone.html` is the whole site inlined into one 1.9 MB file — no server needed.
+Send it as an attachment and it opens offline in any browser. Its "La carta" / "Torte"
+links only resolve if `menu.html` and `torte.html` sit next to it.
 
 ## Files
 
 | File | What it is |
 |---|---|
-| `index.html` | The full site. Self-unpacking Claude Design bundle (~1.9 MB): HTML template + all images, fonts and JS inlined as base64, expanded into blob URLs on load. |
-| `menu.html` / `torte.html` | Placeholder pages for "La carta" and "Torte". The original design linked to two sibling `.dc.html` pages that were never exported, so those links were dead. |
-| `og.jpg` | Link-preview card, 1200×630, cropped from the storefront photo. |
+| `index.html` | The site. 69 KB of markup; the Claude Design runtime renders `<x-dc>`, `<image-slot>` and `<sc-if>`. |
+| `assets/` | 10 photos (webp), 11 font subsets (woff2), 4 JS files (the design runtime + React 18 UMD). |
+| `menu.html` / `torte.html` | Placeholder pages for "La carta" and "Torte" — see below. |
+| `og.jpg` | Link-preview card, 1200×630. |
 | `favicon.svg`, `apple-touch-icon.png` | Icons. |
-| `robots.txt`, `vercel.json` | `noindex` (this is a private preview, not the client's live site) + clean URLs. |
-| `_source.Bombe_Parma_v2.dc.html` | Untouched original export from Claude Design. Keep it — every edit below is reproducible from it. |
+| `robots.txt`, `vercel.json` | `noindex` — this is a private preview, not the client's live site. |
+| `standalone.html` | Single-file version of the same site. |
+| `_source.Bombe_Parma_v2.dc.html` | Untouched original export. Every change below is reproducible from it. |
 
 ## Changes made to the original export
 
-1. **`<head>` metadata** — the export had an empty `<title>` and no meta tags. Added title, description,
-   Open Graph + Twitter card, favicon, `theme-color`, `noindex`, and `lang="it"`.
-   These go *inside* the bundle's `<helmet>` block: the runtime replaces the whole document on load,
-   so anything added to the outer `<head>` is discarded.
-2. **Dead links** — 5 links pointed at `Bombe Parma Menu.dc.html` (×2) and `Bombe Parma Torte.dc.html` (×3),
-   including the main gold CTA. Rewritten to `/menu` and `/torte`.
-3. **Image fallbacks** — the hero and "Storia" images are hotlinked from `dolcesalato.com`.
-   When they fail the hero goes black and Storia shows a broken-image icon. A bundled photo now sits
-   behind each one: if the remote image loads it covers the fallback, otherwise a real photo still shows.
+1. **Unbundled.** The export was a single 1.9 MB file with every asset base64'd inline and
+   unpacked into blob URLs by JS on load. Split into real files so the browser can cache them
+   and load them in parallel. Two things are easy to get wrong here: the four JS assets are
+   gzipped inside the manifest (the images are not), and the bundle keeps a separate
+   `ext_resources` map pointing React at unpkg.com — miss that and the runtime silently
+   fails to boot, leaving a blank page below the fold.
 
-## Editing the bundle
+2. **`<head>` metadata.** The export had an empty `<title>` and no meta tags: blank browser
+   tab, no preview card when the link is shared. Added title, description, `theme-color`,
+   icons, `lang="it"` and `noindex`. These must go *inside* the bundle's `<helmet>` block —
+   the runtime replaces the whole document on load, so outer `<head>` edits are discarded.
 
-`index.html` is generated, not hand-edited. The template lives in the
-`<script type="__bundler/template">` block as a JSON string.
+3. **Dead links.** Five links — including the primary gold call to action — pointed at
+   `Bombe Parma Menu.dc.html` and `Bombe Parma Torte.dc.html`, two sibling pages that were
+   never exported. Rewritten to `menu.html` / `torte.html`, with placeholder pages in the
+   site's own visual language.
 
-Critical: when re-serializing that block, escape `</` as `</`. `JSON.stringify` alone emits a
-literal `</script>` which closes the script tag early and silently destroys the page.
+4. **Image fallbacks.** The hero and "Storia" images are hotlinked from `dolcesalato.com`.
+   When they fail the hero renders black and Storia shows a broken-image icon. A bundled
+   photo now sits behind each: if the remote image loads it covers the fallback, otherwise
+   a real photo still shows.
 
-For anything larger, re-export from Claude Design and re-apply the three changes above.
+## Verified
 
-## Known limitations
+Rendered in Chromium at 1440×900 and on iPhone 13: 12/12 local images, no console errors,
+no horizontal overflow, mobile menu opens, nav and placeholder pages resolve — from the site
+root, from a subdirectory, and as `standalone.html`.
 
-- The hero and Storia images are third-party hotlinks. Replace them with the client's own files before any real launch.
-- `menu.html` / `torte.html` are placeholders, not the real menu.
-- `og.jpg` is cropped from a phone photo that carries a "REDMI 13" camera watermark; the crop removes it.
+Not verified: anything live. The deploy could not be completed from the session that built
+this (see the notes handed over with it).
+
+## Before this becomes the client's real site
+
+- **Replace the hero and Storia images.** They are hotlinked from a third party's server —
+  they can break at any time, and they are not the client's to serve.
+- Fill in the real menu and cake pages; the placeholders are honest but empty.
+- Point `og:image` at an absolute URL on the final domain — relative OG images are resolved
+  inconsistently by link unfurlers.
+- Drop the `noindex` in `robots.txt`, `vercel.json` and `index.html` only when it should
+  actually be indexed.
