@@ -7,26 +7,31 @@ Nothing here is part of the godolkin-portfolio site itself.
 
 ## Live
 
-**https://bombe-demo-godolkin.vercel.app** — Vercel project `bombe-demo`.
+**https://bombe-parma-demo-godolkin.vercel.app** — Vercel project `bombe-parma-demo`.
 
-That deployment is *not* this folder. The Vercel token available to the agent could not
-upload 1.6 MB of assets, so what is deployed is a ~2 KB shell that carries the `<title>` and
-Open Graph tags (so link previews work without JavaScript) and then fetches `index.cdn.html`
-from jsDelivr and writes it into the document. jsDelivr serves the assets straight out of
-this repo, pinned to exact commits:
+That deployment is *not* this folder. The Vercel token could not upload 1.6 MB of assets, so
+what is deployed is a ~2 KB shell per page. Each shell carries its own `<title>` and Open
+Graph tags (so link previews work without JavaScript), then fetches the matching
+`*.cdn.html` and writes it into the document.
 
-| Served from | Commit |
-|---|---|
-| `demos/bombe/assets/` — photos, fonts, React | `9347f06` |
-| `demos/bombe/_cdn/` — design runtime | `30e7089` |
-| `demos/bombe/index.cdn.html` — the page | `bc29e9a` |
+| Layer | Served from | Ref |
+|---|---|---|
+| `index.html`, `menu.html`, `torte.html` | Vercel | the deployment |
+| `*.cdn.html` — page markup | raw.githubusercontent.com | **branch**, 5 min cache |
+| `assets/`, `_cdn/` — photos, fonts, runtime | jsDelivr | pinned commit |
 
-**Do not delete this branch or make the repo private** — jsDelivr reads from it, and the
-live demo goes blank if it disappears. The pinned commits mean the demo will not change if
-you keep working on the branch.
+Markup is read from the branch, so **editing copy or layout needs no redeploy** — push to
+`claude/bombe-vercel-deploy-j6za9x`, regenerate the `*.cdn.html` files, and the live site
+picks it up within about five minutes. Assets are pinned to a commit, so adding or changing
+a photo does need the pinned SHA bumped in `*.cdn.html` and a fresh deploy.
 
-To replace that with a normal self-contained deployment, see below; it needs no CDN and no
-pinned commits, and then the branch stops mattering.
+Redeploying is awkward: the Vercel token in use can only deploy to a project **at the moment
+it creates it** — it returns 403 on both production and preview deploys to any project that
+already exists. That is why each redeploy so far landed on a new project name. Older,
+now-stale projects: `bombe`, `bombe-parma`, `bombe-parma-preview`, `bombe-demo`.
+
+**Do not delete this branch or make the repo private** — both hosts read from it and the live
+demo goes blank. Running the self-contained deploy below removes that constraint entirely.
 
 ## How to put it online
 
