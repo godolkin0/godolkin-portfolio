@@ -5,6 +5,29 @@ Static client preview for **Bombé — Pasticceria & Bistrot**
 
 Nothing here is part of the godolkin-portfolio site itself.
 
+## Live
+
+**https://bombe-demo-godolkin.vercel.app** — Vercel project `bombe-demo`.
+
+That deployment is *not* this folder. The Vercel token available to the agent could not
+upload 1.6 MB of assets, so what is deployed is a ~2 KB shell that carries the `<title>` and
+Open Graph tags (so link previews work without JavaScript) and then fetches `index.cdn.html`
+from jsDelivr and writes it into the document. jsDelivr serves the assets straight out of
+this repo, pinned to exact commits:
+
+| Served from | Commit |
+|---|---|
+| `demos/bombe/assets/` — photos, fonts, React | `9347f06` |
+| `demos/bombe/_cdn/` — design runtime | `30e7089` |
+| `demos/bombe/index.cdn.html` — the page | `bc29e9a` |
+
+**Do not delete this branch or make the repo private** — jsDelivr reads from it, and the
+live demo goes blank if it disappears. The pinned commits mean the demo will not change if
+you keep working on the branch.
+
+To replace that with a normal self-contained deployment, see below; it needs no CDN and no
+pinned commits, and then the branch stops mattering.
+
 ## How to put it online
 
 The folder is a plain static site — no build step, no dependencies.
