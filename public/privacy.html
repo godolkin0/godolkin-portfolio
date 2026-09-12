@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en" id="html-root">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy Policy | Godolkin</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#FFFFFF" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://godolkin.dev/privacy.html" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400..700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --color-bg: #ffffff;
+        --color-wash: #eef0f2;
+        --color-ink: #101820;
+        --color-muted: #676c6a;
+        --color-dark: #131313;
+        --color-line: #c4c9cd;
+        --color-accent: #ff6a1f;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--color-bg);
+        color: var(--color-ink);
+        font-family: "Work Sans", system-ui, sans-serif;
+        line-height: 1.6;
+      }
+      main {
+        max-width: 42rem;
+        margin: 0 auto;
+        padding: 4rem 1.5rem 6rem;
+      }
+      h1, h2 {
+        font-family: "Outfit", system-ui, sans-serif;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+      h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+      h2 { font-size: 1.15rem; margin-top: 2.5rem; margin-bottom: 0.75rem; color: var(--color-ink); }
+      p, li { color: var(--color-muted); font-size: 0.98rem; }
+      strong { color: var(--color-ink); }
+      a { color: var(--color-ink); text-decoration: underline; text-decoration-color: var(--color-line); text-underline-offset: 3px; }
+      .updated { font-size: 0.85rem; color: var(--color-muted); margin-bottom: 2.5rem; }
+      .lang-toggle { display: flex; gap: 0.5rem; margin-bottom: 3rem; }
+      .lang-toggle button {
+        font-family: "Work Sans", sans-serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        border: 1px solid var(--color-line);
+        background: transparent;
+        color: var(--color-muted);
+        padding: 0.4rem 0.9rem;
+        border-radius: 999px;
+        cursor: pointer;
+      }
+      .lang-toggle button[aria-pressed="true"] {
+        background: var(--color-dark);
+        border-color: var(--color-dark);
+        color: white;
+      }
+      table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.92rem; }
+      th, td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--color-line); vertical-align: top; }
+      th { color: var(--color-ink); font-weight: 600; }
+      td { color: var(--color-muted); }
+      .back { display: inline-block; margin-bottom: 2rem; font-size: 0.85rem; }
+      [data-lang] { display: none; }
+      [data-lang].active { display: block; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <a class="back" href="/">← godolkin.dev</a>
+      <div class="lang-toggle">
+        <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-set-lang="it" aria-pressed="false">IT</button>
+      </div>
+
+      <div data-lang="en" class="active">
+        <h1>Privacy Policy</h1>
+        <p class="updated">Last updated: 12 September 2026</p>
+
+        <p>This page explains what personal data godolkin.dev collects, why, and what happens to it. It is written to match exactly what the site's code does — no boilerplate padding.</p>
+
+        <h2>Who is responsible for your data</h2>
+        <p><strong>Data controller:</strong> Blenard Kola, trading as Godolkin, Parma, Italy. Contact: <a href="mailto:godolkin0@gmail.com">godolkin0@gmail.com</a>.</p>
+
+        <h2>What is collected, and why</h2>
+        <table>
+          <tr><th>When</th><th>Data</th><th>Purpose &amp; legal basis</th></tr>
+          <tr>
+            <td>You submit the contact / booking form</td>
+            <td>Name, email, company (optional), your message, selected interests</td>
+            <td>To reply to your enquiry. Legal basis: your consent, given by submitting the form (Art. 6(1)(a) GDPR).</td>
+          </tr>
+          <tr>
+            <td>You browse the site</td>
+            <td>Anonymous event counts (page viewed, section viewed, demo run, language switched). No IP address, no cookie, no persistent identifier — see "Analytics" below.</td>
+            <td>To understand which sections of the site are useful. Legal basis: legitimate interest (Art. 6(1)(f) GDPR), limited to fully anonymised, aggregate data.</td>
+          </tr>
+          <tr>
+            <td>You use the "Book a call" scheduler</td>
+            <td>Handled entirely by Cal.com inside an embedded frame; the booking details Cal.com collects are governed by <a href="https://cal.com/privacy" target="_blank" rel="noopener noreferrer">Cal.com's own privacy policy</a>, not this one.</td>
+            <td>To let you book a call. Legal basis: your consent, given by using the scheduler.</td>
+          </tr>
+        </table>
+
+        <h2>Analytics: no cookies, no tracking</h2>
+        <p>The site runs first-party, anonymous analytics with no cookie banner, because it sets no cookies. Specifically:</p>
+        <ul>
+          <li>The only identifier is a random session code stored in your browser's <em>session storage</em>, which is deleted the moment you close the tab — it cannot be used to recognise you on a later visit.</li>
+          <li>Your IP address is never stored.</li>
+          <li>Nothing you type (in the contact form or any demo) is ever recorded as analytics data — only the fact that an action happened.</li>
+          <li>If your browser sends a Do Not Track or Global Privacy Control signal, no analytics events are sent at all.</li>
+        </ul>
+
+        <h2>Who your data is shared with</h2>
+        <table>
+          <tr><th>Service</th><th>Role</th><th>Data involved</th></tr>
+          <tr><td>Resend (resend.com)</td><td>Delivers the contact-form email</td><td>Name, email, message you submitted</td></tr>
+          <tr><td>Telegram</td><td>Sends a copy of new enquiries to the site owner's phone</td><td>Name, email, message you submitted</td></tr>
+          <tr><td>Supabase (EU region)</td><td>Stores anonymous analytics events</td><td>Anonymous event data only, as described above</td></tr>
+          <tr><td>Cal.com</td><td>Runs the booking widget</td><td>Whatever you enter into the scheduler directly</td></tr>
+          <tr><td>Vercel</td><td>Hosts the website and its serverless functions</td><td>Standard server logs (technically necessary to run the site)</td></tr>
+        </table>
+        <p>None of these providers are permitted to use your data for their own purposes. Where a provider is based outside the EU, transfers rely on that provider's Standard Contractual Clauses or equivalent safeguard.</p>
+
+        <h2>How long data is kept</h2>
+        <p>Contact-form enquiries are kept in the owner's email inbox for as long as needed to handle the relationship, and deleted on request. Anonymous analytics events are kept for internal reporting and are not linked back to any individual.</p>
+
+        <h2>Your rights</h2>
+        <p>Under the GDPR you can ask for access to, correction of, or deletion of your personal data, object to processing, or request a copy in a portable format. Contact <a href="mailto:godolkin0@gmail.com">godolkin0@gmail.com</a>. You can also lodge a complaint with the Italian data protection authority, the <a href="https://www.garanteprivacy.it" target="_blank" rel="noopener noreferrer">Garante per la protezione dei dati personali</a>.</p>
+
+        <p style="margin-top:3rem; font-size:0.82rem;">This policy is provided for transparency and is not a substitute for tailored legal advice.</p>
+      </div>
+
+      <div data-lang="it">
+        <h1>Informativa sulla Privacy</h1>
+        <p class="updated">Ultimo aggiornamento: 12 settembre 2026</p>
+
+        <p>Questa pagina spiega quali dati personali raccoglie godolkin.dev, perché, e cosa ne viene fatto — descritta fedelmente rispetto a quanto fa realmente il codice del sito.</p>
+
+        <h2>Titolare del trattamento</h2>
+        <p><strong>Titolare:</strong> Blenard Kola, in qualità di Godolkin, Parma, Italia. Contatto: <a href="mailto:godolkin0@gmail.com">godolkin0@gmail.com</a>.</p>
+
+        <h2>Cosa viene raccolto e perché</h2>
+        <table>
+          <tr><th>Quando</th><th>Dati</th><th>Finalità e base giuridica</th></tr>
+          <tr>
+            <td>Invii il modulo di contatto / prenotazione</td>
+            <td>Nome, email, azienda (facoltativo), messaggio, interessi selezionati</td>
+            <td>Per rispondere alla tua richiesta. Base giuridica: consenso, prestato inviando il modulo (Art. 6(1)(a) GDPR).</td>
+          </tr>
+          <tr>
+            <td>Navighi sul sito</td>
+            <td>Conteggi anonimi di eventi (pagina vista, sezione vista, demo avviata, lingua cambiata). Nessun indirizzo IP, nessun cookie, nessun identificativo persistente — vedi "Analytics" sotto.</td>
+            <td>Per capire quali sezioni del sito sono utili. Base giuridica: legittimo interesse (Art. 6(1)(f) GDPR), limitato a dati anonimi e aggregati.</td>
+          </tr>
+          <tr>
+            <td>Usi il calendario "Prenota una chiamata"</td>
+            <td>Gestito interamente da Cal.com in un iframe integrato; i dati raccolti da Cal.com sono regolati dalla <a href="https://cal.com/privacy" target="_blank" rel="noopener noreferrer">privacy policy di Cal.com</a>, non da questa.</td>
+            <td>Per permetterti di prenotare una chiamata. Base giuridica: consenso, prestato usando il calendario.</td>
+          </tr>
+        </table>
+
+        <h2>Analytics: nessun cookie, nessun tracciamento</h2>
+        <p>Il sito utilizza analytics anonimi, di prima parte, senza banner cookie, perché non imposta alcun cookie:</p>
+        <ul>
+          <li>L'unico identificativo è un codice di sessione casuale salvato nella <em>session storage</em> del browser, cancellato alla chiusura della scheda — non può riconoscerti in una visita successiva.</li>
+          <li>Il tuo indirizzo IP non viene mai salvato.</li>
+          <li>Nulla di ciò che scrivi (nel modulo di contatto o in una demo) viene registrato come dato di analytics — solo il fatto che un'azione sia avvenuta.</li>
+          <li>Se il tuo browser invia un segnale Do Not Track o Global Privacy Control, non viene inviato alcun evento di analytics.</li>
+        </ul>
+
+        <h2>Con chi vengono condivisi i tuoi dati</h2>
+        <table>
+          <tr><th>Servizio</th><th>Ruolo</th><th>Dati coinvolti</th></tr>
+          <tr><td>Resend (resend.com)</td><td>Consegna l'email del modulo di contatto</td><td>Nome, email, messaggio inviato</td></tr>
+          <tr><td>Telegram</td><td>Invia una copia delle nuove richieste al telefono del titolare</td><td>Nome, email, messaggio inviato</td></tr>
+          <tr><td>Supabase (regione UE)</td><td>Archivia gli eventi di analytics anonimi</td><td>Solo dati di eventi anonimi, come sopra</td></tr>
+          <tr><td>Cal.com</td><td>Gestisce il widget di prenotazione</td><td>Quanto inserisci direttamente nel calendario</td></tr>
+          <tr><td>Vercel</td><td>Ospita il sito e le sue funzioni serverless</td><td>Log di server standard (tecnicamente necessari per il funzionamento del sito)</td></tr>
+        </table>
+        <p>Nessuno di questi fornitori è autorizzato a usare i tuoi dati per fini propri. Dove un fornitore ha sede fuori dall'UE, i trasferimenti si basano sulle Clausole Contrattuali Standard di quel fornitore o su una garanzia equivalente.</p>
+
+        <h2>Per quanto tempo i dati vengono conservati</h2>
+        <p>Le richieste dal modulo di contatto restano nella casella email del titolare per il tempo necessario a gestire il rapporto, e vengono cancellate su richiesta. Gli eventi di analytics anonimi vengono conservati per reportistica interna e non sono ricollegabili a nessun individuo.</p>
+
+        <h2>I tuoi diritti</h2>
+        <p>Ai sensi del GDPR puoi richiedere l'accesso, la rettifica o la cancellazione dei tuoi dati personali, opporti al trattamento, o richiederne copia in formato portabile. Contatta <a href="mailto:godolkin0@gmail.com">godolkin0@gmail.com</a>. Puoi anche presentare reclamo al <a href="https://www.garanteprivacy.it" target="_blank" rel="noopener noreferrer">Garante per la protezione dei dati personali</a>.</p>
+
+        <p style="margin-top:3rem; font-size:0.82rem;">Questa informativa è fornita a scopo di trasparenza e non sostituisce una consulenza legale personalizzata.</p>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        var buttons = document.querySelectorAll("[data-set-lang]");
+        var panels = document.querySelectorAll("[data-lang]");
+        var htmlRoot = document.getElementById("html-root");
+        function setLang(lang) {
+          panels.forEach(function (p) {
+            p.classList.toggle("active", p.getAttribute("data-lang") === lang);
+          });
+          buttons.forEach(function (b) {
+            b.setAttribute("aria-pressed", b.getAttribute("data-set-lang") === lang ? "true" : "false");
+          });
+          htmlRoot.setAttribute("lang", lang);
+          try { localStorage.setItem("godolkin-privacy-lang", lang); } catch (e) {}
+        }
+        buttons.forEach(function (b) {
+          b.addEventListener("click", function () { setLang(b.getAttribute("data-set-lang")); });
+        });
+        var stored = null;
+        try { stored = localStorage.getItem("godolkin-privacy-lang"); } catch (e) {}
+        if (stored === "it" || (!stored && (navigator.language || "").toLowerCase().indexOf("it") === 0)) {
+          setLang("it");
+        }
+      })();
+    </script>
+  </body>
+</html>

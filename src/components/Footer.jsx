@@ -24,6 +24,12 @@ export function Footer() {
             >
               {s.email}
             </a>
+            <a
+              href="/privacy.html"
+              className="t-label text-[var(--color-muted)] underline decoration-[var(--color-line)] underline-offset-8 transition-colors hover:text-[var(--color-ink)]"
+            >
+              {s.privacy}
+            </a>
             {SITE.linkedin && (
               <a
                 href={SITE.linkedin}
