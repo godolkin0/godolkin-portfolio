@@ -2,7 +2,7 @@
 // Asserts each bundled scenario resolves to the outcome the copy promises,
 // and spot-checks the triage and report math in both languages.
 
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { SCENARIOS } from "../src/data/scenarios.js";
 import { analyzeScenario } from "../src/lib/polymarket.js";
 import { classifyLead, EXAMPLE_LEADS } from "../src/lib/triage.js";
@@ -224,6 +224,36 @@ for (const s of SYSTEMS) {
 // And every badge in use must have a label in both languages.
 for (const badge of new Set(SYSTEMS.map((s) => s.badge))) {
   check(`badge ${badge} is labelled EN+IT`, !!(STRINGS.en.systems.badges[badge] && STRINGS.it.systems.badges[badge]), true);
+}
+
+// The privacy page is visitor-facing text that no check covered, which is how
+// it shipped carrying both a house-rule violation and a claim that contradicted
+// itself. The second check is the load-bearing one: the page states who data is
+// shared with, so any asset it fetches from a third party makes it untrue, and a
+// stylesheet link is an easy thing to paste back in without noticing.
+console.log("\n— Privacy page: says what the site actually does —");
+const privacySrc = readFileSync(new URL("../public/privacy.html", import.meta.url), "utf8");
+
+check("privacy page is free of em-dashes", privacySrc.includes("—"), false);
+
+// Anchors are deliberately excluded: an <a href> is a link the visitor chooses
+// to follow, not a request their browser makes on page load.
+const autoFetched = [
+  ...privacySrc.matchAll(/<link\b[^>]*\shref=["'](https?:\/\/[^"']+)["']/gi),
+  ...privacySrc.matchAll(/<script\b[^>]*\ssrc=["'](https?:\/\/[^"']+)["']/gi),
+  ...privacySrc.matchAll(/@import\s+(?:url\()?["'](https?:\/\/[^"']+)["']/gi),
+  ...privacySrc.matchAll(/url\(\s*["']?(https?:\/\/[^"')]+)["']?\s*\)/gi),
+]
+  .map((m) => m[1])
+  // rel=canonical names this page's own address; it fetches nothing.
+  .filter((url) => !url.startsWith("https://godolkin.dev"));
+
+check("privacy page fetches nothing from a third party", autoFetched.join(", ") || "none", "none");
+
+// Both faces have to exist locally for the page to render in brand without
+// reaching for a CDN.
+for (const file of ["outfit-latin-wght-normal.woff2", "work-sans-latin-wght-normal.woff2"]) {
+  check(`${file} is served from this domain`, existsSync(new URL(`../public/fonts/${file}`, import.meta.url)), true);
 }
 
 // Guards the fix for the invisible hero. Anything on screen at first paint must

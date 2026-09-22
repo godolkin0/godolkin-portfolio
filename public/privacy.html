@@ -8,10 +8,27 @@
     <meta name="theme-color" content="#FFFFFF" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href="https://godolkin.dev/privacy.html" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400..700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
     <style>
+      /* Served from this domain, never from Google's CDN. The rest of the site
+         bundles these same two faces through @fontsource, so a stylesheet link
+         to fonts.googleapis.com would make this the only page that hands a
+         visitor's IP address to a third party, and it would do it on the one
+         page that lists who data is shared with. Keep them local. */
+      @font-face {
+        font-family: "Outfit";
+        font-style: normal;
+        font-display: swap;
+        font-weight: 100 900;
+        src: url("/fonts/outfit-latin-wght-normal.woff2") format("woff2-variations");
+      }
+      @font-face {
+        font-family: "Work Sans";
+        font-style: normal;
+        font-display: swap;
+        font-weight: 100 900;
+        src: url("/fonts/work-sans-latin-wght-normal.woff2") format("woff2-variations");
+      }
+
       :root {
         --color-bg: #ffffff;
         --color-wash: #eef0f2;
@@ -84,7 +101,7 @@
         <h1>Privacy Policy</h1>
         <p class="updated">Last updated: 12 September 2026</p>
 
-        <p>This page explains what personal data godolkin.dev collects, why, and what happens to it. It is written to match exactly what the site's code does — no boilerplate padding.</p>
+        <p>This page explains what personal data godolkin.dev collects, why, and what happens to it. It is written to match exactly what the site's code does, with no boilerplate padding.</p>
 
         <h2>Who is responsible for your data</h2>
         <p><strong>Data controller:</strong> Blenard Kola, trading as Godolkin, Parma, Italy. Contact: <a href="mailto:godolkin0@gmail.com">godolkin0@gmail.com</a>.</p>
@@ -99,7 +116,7 @@
           </tr>
           <tr>
             <td>You browse the site</td>
-            <td>Anonymous event counts (page viewed, section viewed, demo run, language switched). No IP address, no cookie, no persistent identifier — see "Analytics" below.</td>
+            <td>Anonymous event counts: which page you opened, which sections you reached, which demos you ran, which system you clicked, whether you switched language, whether you opened the scheduler, and whether you submitted the contact form. On leaving, how long you stayed and how far down the page you scrolled. Each event also records the page address, the domain that linked you here (not the full address), your browser language, and whether you are on a phone, tablet or desktop. No IP address, no cookie, no persistent identifier. See "Analytics" below.</td>
             <td>To understand which sections of the site are useful. Legal basis: legitimate interest (Art. 6(1)(f) GDPR), limited to fully anonymised, aggregate data.</td>
           </tr>
           <tr>
@@ -112,9 +129,9 @@
         <h2>Analytics: no cookies, no tracking</h2>
         <p>The site runs first-party, anonymous analytics with no cookie banner, because it sets no cookies. Specifically:</p>
         <ul>
-          <li>The only identifier is a random session code stored in your browser's <em>session storage</em>, which is deleted the moment you close the tab — it cannot be used to recognise you on a later visit.</li>
+          <li>The only identifier is a random session code stored in your browser's <em>session storage</em>, which is deleted the moment you close the tab. It cannot be used to recognise you on a later visit.</li>
           <li>Your IP address is never stored.</li>
-          <li>Nothing you type (in the contact form or any demo) is ever recorded as analytics data — only the fact that an action happened.</li>
+          <li>Nothing you type (in the contact form or any demo) is ever recorded as analytics data. Only the fact that an action happened is recorded.</li>
           <li>If your browser sends a Do Not Track or Global Privacy Control signal, no analytics events are sent at all.</li>
         </ul>
 
@@ -142,7 +159,7 @@
         <h1>Informativa sulla Privacy</h1>
         <p class="updated">Ultimo aggiornamento: 12 settembre 2026</p>
 
-        <p>Questa pagina spiega quali dati personali raccoglie godolkin.dev, perché, e cosa ne viene fatto — descritta fedelmente rispetto a quanto fa realmente il codice del sito.</p>
+        <p>Questa pagina spiega quali dati personali raccoglie godolkin.dev, perché, e cosa ne viene fatto, descritto fedelmente rispetto a quanto fa realmente il codice del sito.</p>
 
         <h2>Titolare del trattamento</h2>
         <p><strong>Titolare:</strong> Blenard Kola, in qualità di Godolkin, Parma, Italia. Contatto: <a href="mailto:godolkin0@gmail.com">godolkin0@gmail.com</a>.</p>
@@ -157,7 +174,7 @@
           </tr>
           <tr>
             <td>Navighi sul sito</td>
-            <td>Conteggi anonimi di eventi (pagina vista, sezione vista, demo avviata, lingua cambiata). Nessun indirizzo IP, nessun cookie, nessun identificativo persistente — vedi "Analytics" sotto.</td>
+            <td>Conteggi anonimi di eventi: quale pagina hai aperto, quali sezioni hai raggiunto, quali demo hai avviato, su quale sistema hai cliccato, se hai cambiato lingua, se hai aperto il calendario e se hai inviato il modulo di contatto. Alla chiusura, quanto tempo sei rimasto e fino a che punto hai scorso la pagina. Ogni evento registra anche l'indirizzo della pagina, il dominio che ti ha portato qui (non l'indirizzo completo), la lingua del browser e se usi telefono, tablet o computer. Nessun indirizzo IP, nessun cookie, nessun identificativo persistente. Vedi "Analytics" sotto.</td>
             <td>Per capire quali sezioni del sito sono utili. Base giuridica: legittimo interesse (Art. 6(1)(f) GDPR), limitato a dati anonimi e aggregati.</td>
           </tr>
           <tr>
@@ -170,9 +187,9 @@
         <h2>Analytics: nessun cookie, nessun tracciamento</h2>
         <p>Il sito utilizza analytics anonimi, di prima parte, senza banner cookie, perché non imposta alcun cookie:</p>
         <ul>
-          <li>L'unico identificativo è un codice di sessione casuale salvato nella <em>session storage</em> del browser, cancellato alla chiusura della scheda — non può riconoscerti in una visita successiva.</li>
+          <li>L'unico identificativo è un codice di sessione casuale salvato nella <em>session storage</em> del browser, cancellato alla chiusura della scheda, e non può riconoscerti in una visita successiva.</li>
           <li>Il tuo indirizzo IP non viene mai salvato.</li>
-          <li>Nulla di ciò che scrivi (nel modulo di contatto o in una demo) viene registrato come dato di analytics — solo il fatto che un'azione sia avvenuta.</li>
+          <li>Nulla di ciò che scrivi (nel modulo di contatto o in una demo) viene registrato come dato di analytics. Viene registrato solo il fatto che un'azione sia avvenuta.</li>
           <li>Se il tuo browser invia un segnale Do Not Track o Global Privacy Control, non viene inviato alcun evento di analytics.</li>
         </ul>
 
