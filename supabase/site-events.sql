@@ -52,3 +52,27 @@ alter table public.site_events enable row level security;
 -- select width_bucket((props->>'depth')::int, 0, 100, 10) * 10 as depth_pct,
 --        count(*) as visits
 -- from public.site_events where name = 'page_leave' group by 1 order by 1;
+
+-- ---------------------------------------------------------------------------
+-- Retention. Applied to the live project as migration
+-- `site_events_retention_24_months`; kept here so the schema file stays the
+-- whole story rather than most of it.
+-- ---------------------------------------------------------------------------
+-- GDPR Art. 13(2)(a) wants a retention period stated, and privacy.html states
+-- 24 months in both languages. A period that nothing enforces is just a politer
+-- way of keeping data forever, so the deletion runs in the database rather than
+-- in somebody's memory.
+--
+-- Weekly, not daily: the cutoff is two years out, so all daily would buy is 51
+-- more no-op runs a year.
+
+create extension if not exists pg_cron;
+
+select cron.schedule(
+  'site-events-retention',
+  '0 3 * * 0',
+  $$delete from public.site_events where created_at < now() - interval '24 months'$$
+);
+
+-- Undo, if the period is ever changed or dropped:
+-- select cron.unschedule('site-events-retention');
