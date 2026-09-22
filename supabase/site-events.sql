@@ -1,5 +1,12 @@
--- The analytics table behind /api/event. Run this once, in the SQL editor of
+-- The analytics table behind /api/event. Run this in the SQL editor of
 -- whichever Supabase project holds the site's data.
+--
+-- Safe to run again, and running it again is how a project that was set up
+-- earlier picks up anything added to this file since. Every statement is
+-- idempotent: the table and indexes are `if not exists`, and cron.schedule()
+-- is keyed on the job name, so a second run updates that job in place instead
+-- of scheduling a duplicate. Verified against pg_cron 1.6.4 by running the
+-- retention block twice and confirming one job, not two.
 --
 -- It lives in `public` rather than its own schema for one practical reason:
 -- PostgREST only exposes the schemas it has been configured to expose, and

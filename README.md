@@ -84,7 +84,13 @@ place, and how many people switch to Italian.
 1. Run `supabase/site-events.sql` in the Supabase SQL editor. It creates
    `public.site_events` with RLS on and no policies, which is the intended end
    state: `/api/event` uses the service role key and bypasses RLS, and every
-   other key is left with no way in.
+   other key is left with no way in. It also schedules the 24 month retention
+   job that `public/privacy.html` promises.
+
+   Re-run the whole file after pulling changes to it. Every statement is
+   idempotent, and re-running is how a database set up before a given addition
+   picks it up. Skipping this on an existing project is how the privacy page
+   ends up claiming a deletion that nothing performs.
 2. Set `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in Vercel.
 3. Optionally set `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` for enquiry alerts.
 
