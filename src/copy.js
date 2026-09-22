@@ -245,6 +245,7 @@ export const STRINGS = {
       honesty:
         "Every demo on this page runs entirely in your browser: real logic, bundled historical data, zero backend.",
       email: "Email",
+      privacy: "Privacy",
       rights: "GODOLKIN · PARMA, ITALIA",
     },
   },
@@ -486,6 +487,7 @@ export const STRINGS = {
       honesty:
         "Ogni demo di questa pagina gira interamente nel tuo browser: logica reale, dati storici inclusi, zero backend.",
       email: "Email",
+      privacy: "Privacy",
       rights: "GODOLKIN · PARMA, ITALIA",
     },
   },
