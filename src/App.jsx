@@ -9,6 +9,8 @@ import { BookCall } from "./components/BookCall.jsx";
 import { Footer } from "./components/Footer.jsx";
 import { useScrollTriggerRefresh } from "./hooks/useScrollPin.js";
 import { installPageTracking, trackOnce } from "./lib/analytics.js";
+import { initPixel } from "./lib/metaPixel.js";
+import { CookieBanner } from "./components/CookieBanner.jsx";
 
 // One observer for the whole page instead of instrumentation inside each
 // section. The sections already carry the anchor ids the nav points at, so the
@@ -55,6 +57,8 @@ function Page() {
   // most of all) silently invalidate every pin and every anchor target.
   useScrollTriggerRefresh();
   usePageTracking();
+  // Loads Meta only if this browser already said yes on an earlier visit.
+  useEffect(() => initPixel(), []);
   return (
     <>
       <a
@@ -73,6 +77,7 @@ function Page() {
       </main>
       <Footer />
       <BookCallButton />
+      <CookieBanner />
     </>
   );
 }

@@ -247,6 +247,14 @@ export const STRINGS = {
       email: "Email",
       privacy: "Privacy",
       rights: "GODOLKIN · PARMA, ITALIA",
+      cookieSettings: "Cookie settings",
+    },
+    cookies: {
+      title: "Cookies",
+      body: "With your OK, this site uses the Meta Pixel to measure whether my ads bring visitors here. It sets marketing cookies and sends data to Meta. Nothing loads unless you accept, and you can change your mind from the footer at any time.",
+      policy: "Privacy policy",
+      accept: "Accept",
+      reject: "Reject",
     },
   },
 
@@ -489,6 +497,14 @@ export const STRINGS = {
       email: "Email",
       privacy: "Privacy",
       rights: "GODOLKIN · PARMA, ITALIA",
+      cookieSettings: "Preferenze cookie",
+    },
+    cookies: {
+      title: "Cookie",
+      body: "Con il tuo consenso, questo sito usa il Meta Pixel per misurare se le mie inserzioni portano visitatori qui. Imposta cookie di marketing e invia dati a Meta. Nulla viene caricato se non accetti, e puoi cambiare idea in qualsiasi momento dal footer.",
+      policy: "Informativa privacy",
+      accept: "Accetta",
+      reject: "Rifiuta",
     },
   },
 };
