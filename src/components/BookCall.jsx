@@ -4,6 +4,7 @@ import { useI18n } from "../i18n.jsx";
 import { SITE } from "../config.js";
 import { ArrowMark } from "./ui.jsx";
 import { track, trackOnce } from "../lib/analytics.js";
+import { pixelTrack } from "../lib/metaPixel.js";
 
 // A real form, not a mailto. The old CTAs pointed at mail.google.com, which
 // forces every visitor through a Gmail login screen: Outlook, Libero and PEC
@@ -59,6 +60,8 @@ export function BookCall() {
       // message: those went to the inbox, which is where they belong, and an
       // analytics table is not a second copy of the enquiry.
       track(response.ok ? "contact_submitted" : "contact_failed", { interests: interests.length });
+      // Meta gets the event NAME only, and only if the visitor accepted cookies.
+      if (response.ok) pixelTrack("Lead");
     } catch {
       setState("error");
       track("contact_failed", { interests: interests.length, reason: "network" });

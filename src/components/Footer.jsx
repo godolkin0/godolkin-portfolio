@@ -1,5 +1,6 @@
 import { useI18n } from "../i18n.jsx";
 import { SITE } from "../config.js";
+import { openConsentSettings } from "../lib/metaPixel.js";
 
 // Email and LinkedIn live here and nowhere else. LinkedIn is currently null in
 // config.js because the only URL available carries the real name in its slug,
@@ -17,7 +18,7 @@ export function Footer() {
 
         <div className="mt-10 flex flex-wrap items-center justify-between gap-6 border-t border-[var(--color-line)]/60 pt-6">
           <p className="t-label text-[var(--color-muted)]">{s.rights}</p>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center gap-6">
             <a
               href={`mailto:${SITE.email}`}
               className="t-label text-[var(--color-muted)] underline decoration-[var(--color-line)] underline-offset-8 transition-colors hover:text-[var(--color-ink)]"
@@ -30,6 +31,13 @@ export function Footer() {
             >
               {s.privacy}
             </a>
+            <button
+              type="button"
+              onClick={openConsentSettings}
+              className="t-label cursor-pointer text-[var(--color-muted)] underline decoration-[var(--color-line)] underline-offset-8 transition-colors hover:text-[var(--color-ink)]"
+            >
+              {s.cookieSettings}
+            </button>
             {SITE.linkedin && (
               <a
                 href={SITE.linkedin}
