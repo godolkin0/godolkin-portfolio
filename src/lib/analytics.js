@@ -14,6 +14,9 @@
 // That leaves genuinely anonymous, aggregate counts. Keep it that way: the
 // moment an event carries something that identifies a person, this stops being
 // analytics and starts being a GDPR obligation.
+//
+// The cookie banner the site now shows is for the Meta Pixel ONLY (see
+// metaPixel.js). These first-party events do not depend on it and set nothing.
 
 const ENDPOINT = "/api/event";
 
