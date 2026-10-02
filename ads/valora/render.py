@@ -141,10 +141,8 @@ def _commas(img, box):  # 169,000 -> 169.000: cut the tail of every comma betwee
     dig = [i for i, w in enumerate(ws) if abs(w - dw) < dw * .35]
     base = int(np.median([tb[i][1] for i in dig]))
     full = np.median([tb[i][1] - tb[i][0] for i in dig])
-    bg, d = _bg(img, box), ImageDraw.Draw(img)
-    for (s0, s1), (t, b), w in zip(sp, tb, ws):
-        if w < dw * .45 and t > base - full * .5 and b > base + 2:
-            d.rectangle((box[0] + s0 - 1, box[1] + base + 2, box[0] + s1, box[1] + b + 1), fill=bg)
+    # nothing in these price lines descends below the digits except comma tails
+    ImageDraw.Draw(img).rectangle((box[0], box[1] + base + 2, box[2], box[3]), fill=_bg(img, box))
 
 
 def _retext(img, box, text, bold=False, dark=True):
