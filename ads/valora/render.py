@@ -168,9 +168,9 @@ def fix_text(key, img):
     if key in ('02', '03'):
         _grave(img, (60, 1042, 738, 1084))
     if key == '10':
-        _commas(img, (160, 978, 785, 1035))
+        _commas(img, (160, 976, 785, 1042))
     if key == '11':
-        for b in ((218, 330, 659, 361), (279, 936, 748, 967), (47, 1539, 489, 1574)):
+        for b in ((218, 328, 659, 368), (279, 934, 748, 974), (47, 1537, 489, 1580)):
             _commas(img, b)
     if key == '06':
         _retext(img, (79, 836, 166, 880), 'Marco Rossi')
@@ -768,10 +768,10 @@ def render(t):
         s6(fr, t)
     sc = max(eio(prog(t, .95, 2.25)) * (1 - prog(t, 2.35, 2.75)),       # darken behind captions while a
              eio(prog(t, 12.15, 13.05)) * (1 - prog(t, 14.75, 15.05)),  # zoomed screen sits under them
-             eio(prog(t, 15.6, 16.7)) * (1 - prog(t, 17.55, 17.85)))
+             eio(prog(t, 15.45, 16.1)) * (1 - prog(t, 17.55, 17.85)))
     if sc > 0.01:
         fr.alpha_composite(SCRIM if sc > .99 else fade(SCRIM, sc))
-        glass(fr, sc)
+        glass(fr, clamp(sc * 3))
     for c in CAPK:
         c.draw(fr, t)
     fr.alpha_composite(GRAIN[int(t * FPS) % len(GRAIN)])
