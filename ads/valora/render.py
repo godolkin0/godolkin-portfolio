@@ -13,6 +13,8 @@ import sys
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
+os.chdir(os.path.dirname(os.path.abspath(__file__)))  # screenshots and outputs live next to this script
+
 FMT = os.environ.get('VFMT', '916')  # 916 = 1080x1920 (Reels/Stories), 45 = 1080x1350 (Feed)
 L = {'916': dict(H=1920, card=1160, rest=1140, cap=(338, 440), bar=516, zy=(1060, 1090), zh=760, n8=(1000, 1340),
                  v=(650, 590, 360), end=(940, 1050, 1185), glow=(1150, 650), scrim=640),
