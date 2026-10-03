@@ -1,0 +1,21 @@
+{
+  "name": "valora-motion",
+  "private": true,
+  "type": "module",
+  "description": "Valora motion-graphics ad (9:16 and 4:5), rendered from HTML with Playwright",
+  "scripts": {
+    "build": "node build.mjs",
+    "setup": "npm install && npx playwright install chromium",
+    "render:916": "node build.mjs && node render.mjs frames v916_silent.mp4 35.7",
+    "render:45": "node build.mjs && FMT=45 node render.mjs frames v45_silent.mp4 35.7"
+  },
+  "dependencies": {
+    "@fontsource/instrument-serif": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/montserrat": "^5.3.0",
+    "lucide-static": "^1.50.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.1"
+  }
+}
